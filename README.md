@@ -30,7 +30,7 @@
 
 2. 鉴黄APi端下载：https://github.com/no1xuan/zjzNsfw
 
-注意：
+注意:
 
 1. **鉴黄模型目前不怎么精准，建议在小程序过审时打开，其它时间关闭**
 2. **需要在HivisionIDPhotos源码的deploy_api.py第23行加入"data:image/png;base64,"+**
