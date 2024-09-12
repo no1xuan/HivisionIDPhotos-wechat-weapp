@@ -1,14 +1,14 @@
 # 预览：
 
-<div style="text-align: center;"><img src="./assets/3.png"></div>
+<div align="center"><img src="./assets/3.png"></div>
 
 # 项目介绍
 
-# <div style="text-align: center;">证件照伴侣</div>
+# <div align="center">证件照伴侣</div>
 
-<div style="text-align: center;">我给你的，就是我想要的，我爱你的方式，就是我希望被爱的方式.</div> 
+<div align="center">我给你的，就是我想要的，我爱你的方式，就是我希望被爱的方式.</div> 
 <p></p>
-<div style="text-align: center;">喜欢就点个Star吧</div>
+<div align="center">喜欢就点个Star吧</div>
 
 <img src="">
 
@@ -142,7 +142,7 @@
 
 证件照APi:  http://121.62.63.137:8199/
 
-
+[README.md](..%2F..%2F..%2FPictures%2F%D0%C2%BD%A8%CE%C4%BC%FE%BC%D0%2FHivisionIDPhotos-master%2FREADME.md)
 
 ## ⚡️注意
 
