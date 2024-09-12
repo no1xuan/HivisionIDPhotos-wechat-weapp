@@ -140,7 +140,7 @@
 
 证件照APi:  http://121.62.63.137:8199/
 
-[README.md](..%2F..%2F..%2FPictures%2F%D0%C2%BD%A8%CE%C4%BC%FE%BC%D0%2FHivisionIDPhotos-master%2FREADME.md)
+
 
 ## ⚡️注意
 
