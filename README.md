@@ -1,3 +1,7 @@
+# 预览：
+
+<p align="center"><img src="./assets/3.png"></p>
+
 # 项目介绍
 
 # <p align="center">证件照伴侣</p>
@@ -6,9 +10,7 @@
 
 [//]: # (<p align="center">喜欢就点个Star吧</p>)
 
-# 预览：
 
-<p align="center"><img src="./assets/3.png"></p>
 
 **相关项目**：
 
