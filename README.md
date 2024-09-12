@@ -1,16 +1,16 @@
 # 预览：
 
-<img src="https://pic.0po.cn/no1xuan/3.png">
+<div style="text-align: center;"><img src="./assets/3.png"></div>
 
 # 项目介绍
 
-#                                          <center>证件照伴侣</center> 
+# <div style="text-align: center;">证件照伴侣</div>
 
-<center>我给你的，就是我想要的，我爱你的方式，就是我希望被爱的方式.</center> 
+<div style="text-align: center;">我给你的，就是我想要的，我爱你的方式，就是我希望被爱的方式.</div> 
+<p></p>
+<div style="text-align: center;">喜欢就点个Star吧</div>
 
-<center>喜欢就点个Star吧<center>
-
-<img src="https://pic.0po.cn/no1xuan/1.png">
+<img src="">
 
 
 
@@ -35,7 +35,7 @@
 1. **鉴黄模型目前不怎么精准，建议在小程序过审时打开，其它时间关闭**
 2. **需要在HivisionIDPhotos源码的deploy_api.py第23行加入"data:image/png;base64,"+**
 
-<img src="https://pic.0po.cn/no1xuan/9.png">
+<img src="./assets/9.png">
 
 
 
@@ -66,20 +66,20 @@
 
 ##### 内测功能列表：
 
-14种衣服自由换装
-更换最新HivisionIDPhotos模型
-物品自定义抠图
-黑白图片上色
-粘土风写真生成
-新版本个人中心
-无感登录
+- 14种衣服自由换装
+- 更换最新HivisionIDPhotos模型
+- 物品自定义抠图
+- 黑白图片上色
+- 粘土风写真生成
+- 新版本个人中心
+- 无感登录
 
 
 
 ##### 排期功能列表：
 
-下载接入流量主（暂时没找到开发文档）
-管理员的后台管理
+- 下载接入流量主（暂时没找到开发文档）
+- 管理员的后台管理
 
 
 
@@ -91,15 +91,16 @@
 
 需要：
 
-jdk1.8+mysql8.0+redis7.2.4（mysql5.7理论也行）
+1. jdk1.8+mysql8.0+redis7.2.4（mysql5.7理论也行）
 
-Mysql导入1.sql，然后打开web_set表，把app_id，app_secret配置了，至此Mysql配置完毕
+2. Mysql导入1.sql，然后打开web_set表，把app_id，app_secret配置了，至此Mysql配置完毕
 
-IDEA导入项目，打开application.yml，按下图进行一步步配置
+3. IDEA导入项目，打开application.yml，按下图进行一步步配置
+<p></p>
 
 ##### 修改Redis：
 
-<img src="https://pic.0po.cn/no1xuan/5.png">
+<img src="./assets/5.png">
 
 
 
@@ -107,7 +108,7 @@ IDEA导入项目，打开application.yml，按下图进行一步步配置
 
 ##### 修改Mysql：
 
-<img src="https://pic.0po.cn/no1xuan/6.png">
+<img src="./assets/6.png">
 
 
 
@@ -115,7 +116,7 @@ IDEA导入项目，打开application.yml，按下图进行一步步配置
 
 ##### 修改图片存储地址：
 
-<img src="https://pic.0po.cn/no1xuan/7.png">
+<img src="./assets/7.png">
 
 解释：
 
@@ -131,7 +132,7 @@ IDEA导入项目，打开application.yml，按下图进行一步步配置
 
 ##### 修改API接口地址：
 
-<img src="https://pic.0po.cn/no1xuan/8.png">
+<img src="./assets/8.png">
 
 换成你的APi地址即可，然后就可以打包了
 
@@ -149,7 +150,7 @@ IDEA导入项目，打开application.yml，按下图进行一步步配置
 2. 鉴黄模型目前不怎么精准，建议在小程序过审时打开，其它时间关闭
 3. 部署自已鉴黄和证件照APi时，不建议开设外网，防止被抓接口后滥用，yml里面配置127.0.0.1即可本地链接，速度还快，还安全
 4. 为什么不把APi地址等参数放入数据库来配置？答：频繁使用的值，不建议与Mysql频繁握手
-5. 当你部署到云上（服务器）时，别忘记配置你的小程序域名(如图)<img src="https://pic.0po.cn/no1xuan/11.png">
+5. 当你部署到云上（服务器）时，别忘记配置你的小程序域名(如图) <p></p> <img src="./assets/11.png">
 
 
 
