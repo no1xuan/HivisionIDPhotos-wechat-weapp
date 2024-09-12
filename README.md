@@ -1,16 +1,14 @@
 # 预览：
 
-<div align="center"><img src="./assets/3.png"></div>
+<p align="center"><img src="./assets/3.png"></p>
 
 # 项目介绍
 
-# <div align="center">证件照伴侣</div>
+# <p align="center">证件照伴侣</p>
+<p align="center">我给你的，就是我想要的，我爱你的方式，就是我希望被爱的方式.</p>
+<p align="center"><img src="./assets/1.png"></p>
 
-<div align="center">我给你的，就是我想要的，我爱你的方式，就是我希望被爱的方式.</div> 
-<p></p>
-<div align="center">喜欢就点个Star吧</div>
-
-<img src="">
+[//]: # (<p align="center">喜欢就点个Star吧</p>)
 
 
 
