@@ -6,7 +6,7 @@
 
 # <p align="center">证件照伴侣</p>
 <p align="center">我给你的，就是我想要的，我爱你的方式，就是我希望被爱的方式.</p>
-<p align="center"><img src="https://github.com/no1xuan/zjzWx/blob/main/assets/1.png"></p>
+<p align="center"><img src="./assets/1.png"></p>
 
 [//]: # (<p align="center">喜欢就点个Star吧</p>)
 
