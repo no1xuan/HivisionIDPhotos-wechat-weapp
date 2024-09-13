@@ -127,7 +127,7 @@ public class ApiServiceImpl implements ApiService {
             }else {
                 photo.setName(item.getName());
             }
-            photo.setSize(createPhotoDto.getHeight()+"x"+createPhotoDto.getWidth());
+            photo.setSize(createPhotoDto.getWidth()+"x"+createPhotoDto.getHeight());
             photo.setCreateTime(new Date());
             photoService.save(photo);
 
