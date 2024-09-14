@@ -87,13 +87,22 @@
 
 # 🔧部署
 
-需要：
+环境工作准备：
 
-1. jdk1.8+mysql8.0+redis7.2.4（mysql5.7理论也行）
+1. 环境准备：
+- jdk=1.8
+- mysql=8.0或5.7
+- redis=7.2.4或任意版本
 
-2. Mysql导入1.sql，然后打开web_set表，把app_id，app_secret配置了，至此Mysql配置完毕
+2. 
+- Mysql导入1.sql
+- 打开web_set表，配置app_id，app_secret
+- 至此Mysql配置完毕
 
-3. IDEA导入项目，打开application.yml，按下图进行一步步配置
+3.
+- IDEA导入项目 
+- 打开application.yml
+- 按下图进行一步步配置
 <p></p>
 
 ##### 修改Redis：
@@ -119,10 +128,12 @@
 解释：
 
 你需要一个新建一个静态网站，将目录指定：/www/wwwroot/zjzpic/pic
+<img src="./assets/12.png">
 
-然后，开启https（因为小程序内下载链接只能https请求）并把域名换成你的
 
-
+然后，配置SSL证书，开启https，并把【图片存储服务器域名】换成你的
+<img src="./assets/13.png">
+<p></p>
 
 
 
