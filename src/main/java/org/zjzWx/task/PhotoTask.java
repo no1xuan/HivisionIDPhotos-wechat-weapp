@@ -12,7 +12,7 @@ public class PhotoTask {
     @Autowired
     private PhotoService photoService;
 
-    //每天00:00删除仅生成未保存的数据
+    //每天00:00删除仅生成，但是用户没点击下载的数据
     @Scheduled(cron = "0 0 0 * * ?")
     public void executeTask() {
         QueryWrapper<Photo> qw = new QueryWrapper<>();

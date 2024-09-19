@@ -17,6 +17,7 @@ import org.zjzWx.model.dto.CreatePhotoDto;
 import org.zjzWx.model.dto.HivisionDto;
 import org.zjzWx.model.vo.PicVo;
 import org.zjzWx.service.*;
+import org.zjzWx.util.PicUtil;
 import org.zjzWx.util.R;
 
 import java.io.File;
@@ -95,8 +96,8 @@ public class ApiServiceImpl implements ApiService {
             headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
             MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-            MultipartFile multipartFile = base64ToMultipartFile(createPhotoDto.getImage());
-            body.add("input_image", new MultipartInputStreamFileResource(multipartFile));
+            MultipartFile multipartFile = PicUtil.base64ToMultipartFile(createPhotoDto.getImage());
+            body.add("input_image", new PicUtil.MultipartInputStreamFileResource(multipartFile));
             body.add("height",createPhotoDto.getHeight());
             body.add("width", createPhotoDto.getWidth());
 
@@ -189,8 +190,8 @@ private HivisionDto updateIdPhotoTwo(String img,String colors) throws Exception 
     headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
     MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-    MultipartFile multipartFile = base64ToMultipartFile(img);
-    body.add("input_image", new MultipartInputStreamFileResource(multipartFile));
+    MultipartFile multipartFile = PicUtil.base64ToMultipartFile(img);
+    body.add("input_image", new PicUtil.MultipartInputStreamFileResource(multipartFile));
     body.add("color", colors);
 
     HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
@@ -226,7 +227,7 @@ private HivisionDto updateIdPhotoTwo(String img,String colors) throws Exception 
 
         //因为图片没刚开始存库，是为了防止性能浪费，所有由前端传入
         // 将图片转成MultipartFile，再次检查，防止数据伪造，如：被劫持数据包上传黄色，木马什么的
-        MultipartFile file = base64ToMultipartFile(img);
+        MultipartFile file = PicUtil.base64ToMultipartFile(img);
 
 
         // 检查文件类型
@@ -268,7 +269,7 @@ private HivisionDto updateIdPhotoTwo(String img,String colors) throws Exception 
         }
 
         // 生成新的文件名
-        String filename = generateUniqueFilename(originalFilename, file);
+        String filename = PicUtil.generateUniqueFilename(originalFilename, file);
         Path filePath = uploadFolder.toPath().resolve(filename);
 
 
@@ -303,72 +304,6 @@ private HivisionDto updateIdPhotoTwo(String img,String colors) throws Exception 
 
 
 
-    private static class MultipartInputStreamFileResource extends ByteArrayResource {
-        private final String filename;
-
-        MultipartInputStreamFileResource(MultipartFile multipartFile) throws Exception {
-            super(multipartFile.getBytes());
-            this.filename = multipartFile.getOriginalFilename();
-        }
-
-        @Override
-        public String getFilename() {
-            return this.filename;
-        }
-    }
-
-
-    private static MultipartFile base64ToMultipartFile(String base64) {
-        // 提取Base64内容
-        String[] baseStrs = base64.split(",");
-
-        // 获取 MIME 类型
-        String mimeType = baseStrs[0].split(":")[1].split(";")[0];
-        String extension = mimeType.split("/")[1]; // 提取文件扩展名
-
-        // 解码Base64数据
-        byte[] data = Base64.getDecoder().decode(baseStrs[1]);
-
-        // 创建MultipartFile对象
-        return new MockMultipartFile(
-                "file", // 表单字段名
-                "filename." + extension, // 原始文件名，带扩展名
-                mimeType, // 文件类型
-                data // 文件数据
-        );
-    }
-
-
-
-    private String generateUniqueFilename(String originalFilename, MultipartFile file) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-        String timestamp = dateFormat.format(new Date());
-        String contentHash = getFileContentHash(file); // 获取文件内容哈希值
-        return timestamp  + contentHash + getExtension(originalFilename);
-    }
-
-    private String getFileContentHash(MultipartFile file) {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] bytes = digest.digest(file.getBytes());
-            StringBuilder builder = new StringBuilder();
-            for (byte b : bytes) {
-                builder.append(String.format("%02x", b));
-            }
-            return builder.toString();
-        } catch (NoSuchAlgorithmException | IOException e) {
-            e.printStackTrace();
-        }
-        return "";
-    }
-
-    private String getExtension(String filename) {
-        int dotIndex = filename.lastIndexOf(".");
-        if (dotIndex > 0 && dotIndex < filename.length() - 1) {
-            return filename.substring(dotIndex);
-        }
-        return "";
-    }
 
 
 }

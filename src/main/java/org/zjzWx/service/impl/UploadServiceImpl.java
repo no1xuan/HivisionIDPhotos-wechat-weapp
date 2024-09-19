@@ -20,6 +20,7 @@ import org.zjzWx.model.dto.CreatePhotoDto;
 import org.zjzWx.model.vo.PicVo;
 import org.zjzWx.service.UploadService;
 import org.zjzWx.service.WebSetService;
+import org.zjzWx.util.PicUtil;
 import org.zjzWx.util.R;
 
 import java.io.File;
@@ -53,7 +54,7 @@ public class UploadServiceImpl implements UploadService {
             headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
             MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-            body.add("file",new MultipartInputStreamFileResource(multipartFile));
+            body.add("file",new PicUtil.MultipartInputStreamFileResource(multipartFile));
 
             HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
@@ -111,18 +112,5 @@ public class UploadServiceImpl implements UploadService {
 
 
 
-    private static class MultipartInputStreamFileResource extends ByteArrayResource {
-        private final String filename;
-
-        MultipartInputStreamFileResource(MultipartFile multipartFile) throws Exception {
-            super(multipartFile.getBytes());
-            this.filename = multipartFile.getOriginalFilename();
-        }
-
-        @Override
-        public String getFilename() {
-            return this.filename;
-        }
-    }
 
 }

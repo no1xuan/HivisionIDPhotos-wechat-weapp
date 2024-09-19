@@ -875,8 +875,8 @@ CREATE TABLE `web_set` (
   `id` int NOT NULL COMMENT '应用设置表',
   `app_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '小程序appid',
   `app_secret` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '小程序AppSecret',
-  `download_one` int DEFAULT '1' COMMENT '1免费下载，2看广告下载',
-  `download_two` int DEFAULT '1' COMMENT '1免费下载，2看广告下载',
+  `download_one` int DEFAULT '1' COMMENT '保存预览照：1免费下载，2看广告下载',
+  `download_two` int DEFAULT '1' COMMENT '保存AI高清照：1免费下载，2看广告下载',
   `safety_api` int DEFAULT '1' COMMENT '是否开启鉴黄：1关闭，2开启',
   `video_unit_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '广告位id'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

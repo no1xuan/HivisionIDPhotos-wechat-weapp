@@ -15,7 +15,7 @@ spring:
     # Redis服务器连接端口
     port: 6379
     # Redis服务器连接密码（默认为空）
-    password: 123456789
+    password: 123456
     # 连接超时时间
     timeout: 10s
     lettuce:
@@ -35,7 +35,8 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/zjzwx?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
     username: 123456
-    password: 123456
+    #如果你的密码是纯数字，需要用字符串包起了，只要纯数字需要这样
+    password: "123456"
 
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml

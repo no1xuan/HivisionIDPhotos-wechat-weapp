@@ -53,7 +53,7 @@ public class ImageUpload {
 
         // 检查文件大小，因为现在的手机，一拍照就10多M
         if (file.getSize() > 15 * 1024 * 1024) {
-            return R.no("图片大小不能超过20M");
+            return R.no("图片大小不能超过15M");
         }
 
         WebSet webSet = webSetService.getById(1);
