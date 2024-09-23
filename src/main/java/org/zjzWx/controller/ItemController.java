@@ -14,6 +14,8 @@ import org.zjzWx.util.R;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/item")
@@ -34,10 +36,12 @@ public class ItemController {
         custom.setUserId(Integer.parseInt(StpUtil.getTokenInfo().getLoginId().toString()));
         //拿mm尺寸zx
         String[] split = custom.getSize().split("\\*");
+        String widthStr = split[0].trim();
+        String heightStr = split[1].replace(" mm", "").trim();
         Random random = new Random();
         custom.setIcon(random.nextInt(6) + 1);
-        custom.setWidthMm(Integer.parseInt(split[0]));
-        custom.setHeightMm(Integer.parseInt(split[1]));
+        custom.setWidthMm(Integer.parseInt(widthStr));
+        custom.setHeightMm(Integer.parseInt(heightStr));
         custom.setCreateTime(new Date());
         customService.save(custom);
         return R.ok(null);
