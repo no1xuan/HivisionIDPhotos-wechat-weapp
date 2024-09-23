@@ -46,10 +46,6 @@ public class ApiServiceImpl implements ApiService {
     private PhotoService photoService;
     @Autowired
     private PhotoRecordService photoRecordService;
-    @Autowired
-    private WebSetService webSetService;
-    @Autowired
-    private UploadService uploadService;
 
     @Value("${webset.directory}")
     private String directory;
@@ -234,7 +230,6 @@ private HivisionDto updateIdPhotoTwo(String img,String colors) throws Exception 
         String originalFilename = file.getOriginalFilename();
         if (!StringUtils.hasText(originalFilename) || (!originalFilename.toLowerCase().endsWith(".png")
                 && !originalFilename.toLowerCase().endsWith(".jpg")) && !originalFilename.toLowerCase().endsWith(".jpeg")) {
-            // 文件类型不合法
             picVo.setMsg("图片类型不合法，仅支持jpg/png/jpeg的图片");
             return picVo;
         }
