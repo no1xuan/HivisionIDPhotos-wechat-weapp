@@ -8,13 +8,22 @@
 <p align="center">我给你的，就是我想要的，我爱你的方式，就是我希望被爱的方式.</p>
 <p align="center"><img src="./assets/1.png"></p>
 
-[//]: # (<p align="center">喜欢就点个Star吧</p>)
+[//]: # "<p align="center">喜欢就点个Star吧</p>"
 
 
 
 **相关项目**：
 
 - 小程序前端请前往：https://github.com/no1xuan/photo
+- HivisionIDPhotos：https://github.com/Zeyi-Lin/HivisionIDPhotos
+
+<hr>
+<br>
+
+# 🏠 社区
+一些由爱好者进行二次开发的项目，非官方维护：
+
+uniapp多端兼容版：https://github.com/wmlcjj/AI-IDPhoto
 
 <hr>
 <br>
