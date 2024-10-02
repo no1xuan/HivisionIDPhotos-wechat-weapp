@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2024-09-12 16:34:47
+-- 生成日期： 2024-10-02 22:56:20
 -- 服务器版本： 8.0.35
 -- PHP 版本： 8.0.26
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- 数据库： `zjzwx`
+-- 数据库： `123456`
 --
 
 -- --------------------------------------------------------
@@ -35,6 +35,7 @@ CREATE TABLE `custom` (
   `height_px` int NOT NULL DEFAULT '0' COMMENT '像素-高',
   `width_mm` int NOT NULL DEFAULT '0' COMMENT '尺寸-宽',
   `height_mm` int NOT NULL DEFAULT '0' COMMENT '尺寸-高',
+  `dpi` int DEFAULT '300' COMMENT '分辨率',
   `icon` int DEFAULT '1' COMMENT '图标，1-6',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='用户自定义' ROW_FORMAT=COMPACT;
@@ -46,8 +47,8 @@ CREATE TABLE `custom` (
 --
 
 CREATE TABLE `item` (
-  `id` int NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb3 NOT NULL COMMENT '名称',
+  `id` int NOT NULL COMMENT '尺寸表',
+  `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '名称',
   `width_px` int NOT NULL DEFAULT '0' COMMENT '像素-宽',
   `height_px` int NOT NULL DEFAULT '0' COMMENT '像素-高',
   `width_mm` int NOT NULL DEFAULT '0' COMMENT '尺寸-宽',
@@ -55,7 +56,7 @@ CREATE TABLE `item` (
   `icon` int DEFAULT '1' COMMENT '图标',
   `sort` tinyint DEFAULT '100' COMMENT '排序',
   `category` tinyint(1) DEFAULT '0' COMMENT '1=常用寸照，2=各类签证，3=各类证件',
-  `dpi` int DEFAULT '0'
+  `dpi` int DEFAULT '0' COMMENT '分辨率'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='证件照表' ROW_FORMAT=COMPACT;
 
 --
@@ -820,7 +821,8 @@ INSERT INTO `item` (`id`, `name`, `width_px`, `height_px`, `width_mm`, `height_m
 (755, '安徽身份证', 358, 441, 26, 32, 4, 100, 3, 300),
 (756, '深圳港澳通行证', 390, 567, 33, 48, 3, 100, 2, 300),
 (757, '湖南教师资格证', 307, 437, 26, 37, 4, 100, 3, 300),
-(758, '海员证', 354, 472, 30, 40, 3, 100, 2, 300);
+(758, '海员证', 354, 472, 30, 40, 3, 100, 2, 300),
+(759, '中考报名', 240, 320, 20, 27, 1, 100, 1, 300);
 
 -- --------------------------------------------------------
 
@@ -831,10 +833,10 @@ INSERT INTO `item` (`id`, `name`, `width_px`, `height_px`, `width_mm`, `height_m
 CREATE TABLE `photo` (
   `id` int NOT NULL COMMENT '用户保存记录表',
   `user_id` int DEFAULT NULL COMMENT '用户id',
-  `name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '规格名字',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '规格名字',
   `o_img` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '原图，隐私考虑暂不启用',
   `n_img` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '保存图',
-  `size` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '尺寸',
+  `size` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '尺寸',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -846,7 +848,7 @@ CREATE TABLE `photo` (
 
 CREATE TABLE `photo_record` (
   `id` int NOT NULL COMMENT '用户行为记录',
-  `name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '名字',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '名字',
   `user_id` int DEFAULT NULL COMMENT '用户id',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -873,12 +875,12 @@ CREATE TABLE `user` (
 
 CREATE TABLE `web_set` (
   `id` int NOT NULL COMMENT '应用设置表',
-  `app_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '小程序appid',
-  `app_secret` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '小程序AppSecret',
+  `app_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '小程序appid',
+  `app_secret` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '小程序AppSecret',
   `download_one` int DEFAULT '1' COMMENT '保存预览照：1免费下载，2看广告下载',
   `download_two` int DEFAULT '1' COMMENT '保存AI高清照：1免费下载，2看广告下载',
   `safety_api` int DEFAULT '1' COMMENT '是否开启鉴黄：1关闭，2开启',
-  `video_unit_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '广告位id'
+  `video_unit_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '广告位id'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -935,7 +937,7 @@ ALTER TABLE `custom`
 -- 使用表AUTO_INCREMENT `item`
 --
 ALTER TABLE `item`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=759;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT COMMENT '尺寸表', AUTO_INCREMENT=760;
 
 --
 -- 使用表AUTO_INCREMENT `photo`
