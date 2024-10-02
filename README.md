@@ -28,6 +28,7 @@ uniapp多端兼容版：https://github.com/wmlcjj/AI-IDPhoto
 <br>
 
 # ⭐最近更新
+- 2024.10.02：跟上HivisionIDPhotos(2024.09.25)最新版，增加自定义kb/dpi/上下渐变/中心渐变/美化页面，优化createIdPhoto接口
 - 2024.09.23：增加个人中心功能，修复定制尺寸
 - 2024.09.19：优化代码
 - 2024.09.14：第一个版本诞生
@@ -38,20 +39,18 @@ uniapp多端兼容版：https://github.com/wmlcjj/AI-IDPhoto
 
 #  📦前提准备
 
-本项目基于HivisionIDPhotos的2024.09.10更新的版本进行对接开发
+本项目基于HivisionIDPhotos的2024.09.25更新的版本进行对接开发
 
 理论HivisionIDPhotos不改变入参和返回，即可直接使用最新版
 
-1. 2024.09.10的HivisionIDPhotos（以内置MTCNN+hivision_modnet模型）下载：https://wwba.lanzouq.com/it7LW29ue8yd
+1. 2024.09.25的HivisionIDPhotos（以内置MTCNN+hivision_modnet模型）下载：https://wwba.lanzouq.com/ihjM02bfoz0d
 
 2. 鉴黄APi端下载：https://github.com/no1xuan/zjzNsfw
 
 注意:
 
 1. **鉴黄模型目前不怎么精准，建议在小程序过审时打开，其它时间关闭**
-2. **需要在HivisionIDPhotos源码的deploy_api.py第23行加入"data:image/png;base64,"+**
 
-<img src="./assets/9.png">
 
 
 
@@ -72,7 +71,7 @@ uniapp多端兼容版：https://github.com/wmlcjj/AI-IDPhoto
 - 支持水印
 - 支持流量主
 - 支持自由开关鉴黄
-- 自带758+尺寸
+- 自带759+尺寸
 - 支持自定义尺寸
 - 支持自定义更换背景色
 - 支持普通下载和高清下载
@@ -85,7 +84,7 @@ uniapp多端兼容版：https://github.com/wmlcjj/AI-IDPhoto
 ##### 排期功能列表：
 
 - 14种衣服自由换装
-- 更换最新HivisionIDPhotos模型
+- 跟上最新HivisionIDPhotos模型
 - 物品自定义抠图
 - 黑白图片上色
 - 粘土风写真生成
@@ -162,7 +161,7 @@ uniapp多端兼容版：https://github.com/wmlcjj/AI-IDPhoto
 
 鉴黄APi：http://121.62.63.137:3006/
 
-证件照APi:  http://121.62.63.137:8199/
+证件照APi:  http://121.62.63.137:8299/
 
 <hr>
 <br>
@@ -183,9 +182,16 @@ uniapp多端兼容版：https://github.com/wmlcjj/AI-IDPhoto
 
 
 # 📧其它
-
+如您在部署过程中遇到问题，双方空闲时间可远程一对一给予帮助（不收费）
+<br>
+<p>
 您可以通过以下方式联系我:
 
 QQ: 24677102
 
 微信：webxuan
+<hr>
+<br>
+目前本人属于负债状态，如本项目对您有帮助，希望能得到您的赏赐，祝您生活愉快
+<p>
+<img src="./assets/9.png">

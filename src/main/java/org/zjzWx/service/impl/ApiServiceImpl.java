@@ -71,7 +71,7 @@ public class ApiServiceImpl implements ApiService {
             }
             createPhotoDto.setHeight(custom.getHeightPx());
             createPhotoDto.setWidth(custom.getWidthPx());
-
+            createPhotoDto.setDpi(custom.getDpi());
         }else { //列表
              item = itemService.getById(createPhotoDto.getItemId());
             if(null==item){
@@ -80,6 +80,7 @@ public class ApiServiceImpl implements ApiService {
             }
             createPhotoDto.setHeight(item.getHeightPx());
             createPhotoDto.setWidth(item.getWidthPx());
+            createPhotoDto.setDpi(item.getDpi());
         }
 
 
@@ -92,10 +93,13 @@ public class ApiServiceImpl implements ApiService {
             headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
             MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-            MultipartFile multipartFile = PicUtil.base64ToMultipartFile(createPhotoDto.getImage());
-            body.add("input_image", new PicUtil.MultipartInputStreamFileResource(multipartFile));
+            body.add("input_image_base64", createPhotoDto.getImage());
             body.add("height",createPhotoDto.getHeight());
             body.add("width", createPhotoDto.getWidth());
+            body.add("dpi",createPhotoDto.getDpi());
+            body.add("human_matting_model","hivision_modne");  //指定最快模型
+            body.add("hd",false);  //减少时间，不生成高清
+            body.add("face_alignment",true);  //人脸对齐
 
             HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
@@ -110,10 +114,6 @@ public class ApiServiceImpl implements ApiService {
                 picVo.setMsg("未检测到人脸或多人脸");
                 return picVo;
             }
-
-            //因为小程序需要默认初始化一张蓝底。新版本HivisionIDPhotos无法通过修改py代码来实现，只能再java再调用一次换背景接口
-            //可能会慢点，目前已经列入待优化名单
-            HivisionDto hivisionDto2 = updateIdPhotoTwo(hivisionDto.getImageBase64Standard(), "#438edb");
 
 
             //保存生成记录
@@ -137,9 +137,9 @@ public class ApiServiceImpl implements ApiService {
 
             //封装前端参数
             picVo.setId2(photo.getId());
-            picVo.setOImg(hivisionDto.getImageBase64Hd());
-            picVo.setKImg(hivisionDto.getImageBase64Standard());
-            picVo.setCImg(hivisionDto2.getImageBase64());
+            picVo.setOimg(createPhotoDto.getImage());
+            picVo.setKimg(hivisionDto.getImageBase64Standard());
+            picVo.setDpi(createPhotoDto.getDpi());
             return picVo;
         } catch (Exception e) {
             e.printStackTrace();
@@ -151,10 +151,116 @@ public class ApiServiceImpl implements ApiService {
     }
 
     @Override
+    public PicVo createIdHdPhoto(CreatePhotoDto createPhotoDto) {
+        PicVo picVo = new PicVo();
+        Item item = null;
+        if(createPhotoDto.getType()==0){ //定制
+            Custom custom = customService.getById(createPhotoDto.getItemId());
+            if(null==custom){
+                picVo.setMsg("规格不存在");
+                return picVo;
+            }
+            if(!custom.getUserId().equals(createPhotoDto.getUserId())){
+                picVo.setMsg("非法请求");
+                return picVo;
+            }
+            createPhotoDto.setHeight(custom.getHeightPx());
+            createPhotoDto.setWidth(custom.getWidthPx());
+            createPhotoDto.setDpi(custom.getDpi());
+        }else { //列表
+            item = itemService.getById(createPhotoDto.getItemId());
+            if(null==item){
+                picVo.setMsg("规格信息不存在");
+                return picVo;
+            }
+            createPhotoDto.setHeight(item.getHeightPx());
+            createPhotoDto.setWidth(item.getWidthPx());
+            createPhotoDto.setDpi(item.getDpi());
+        }
+
+
+
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+
+            // 构建 multipart 数据
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+            MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+            body.add("input_image_base64", createPhotoDto.getImage());
+            body.add("height",createPhotoDto.getHeight());
+            body.add("width", createPhotoDto.getWidth());
+            body.add("dpi",createPhotoDto.getDpi());
+            body.add("human_matting_model","hivision_modne");  //指定最快模型
+            body.add("hd",true);
+            body.add("face_alignment",true);  //人脸对齐
+
+            HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+
+            ResponseEntity<String> response = restTemplate.exchange(
+                    zjzDomain+"/idphoto",
+                    HttpMethod.POST,
+                    requestEntity,
+                    String.class);
+
+            HivisionDto hivisionDto = JSON.parseObject(response.getBody(), HivisionDto.class);
+            if(!hivisionDto.isStatus()){
+                picVo.setMsg("未检测到人脸或多人脸");
+                return picVo;
+            }
+
+
+            //保存用户行为记录
+            PhotoRecord record = new PhotoRecord();
+            record.setName("生成高清证件照");
+            record.setUserId(createPhotoDto.getUserId());
+            record.setCreateTime(new Date());
+            photoRecordService.save(record);
+
+            //封装前端参数
+            picVo.setKimg(hivisionDto.getImageBase64Hd());
+            return picVo;
+        } catch (Exception e) {
+            e.printStackTrace();
+            picVo.setMsg("系统繁忙，请稍后再试");
+            return picVo;
+        }
+
+    }
+
+    @Override
     public PicVo updateIdPhoto(CreatePhotoDto createPhotoDto) {
         PicVo picVo = new PicVo();
         try {
-            HivisionDto hivisionDto = updateIdPhotoTwo(createPhotoDto.getImage(), createPhotoDto.getColors());
+            RestTemplate restTemplate = new RestTemplate();
+
+            // 构建 multipart 数据
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+            MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+            body.add("input_image_base64", createPhotoDto.getImage());
+            body.add("render",createPhotoDto.getRender());
+            body.add("dpi",createPhotoDto.getDpi());
+            body.add("color",createPhotoDto.getColors());
+            //如果用户设置了kb
+            if(createPhotoDto.getKb()>0){
+                body.add("kb",createPhotoDto.getKb());
+            }
+
+
+
+            HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+
+            ResponseEntity<String> response = restTemplate.exchange(
+                    zjzDomain+"/add_background",
+                    HttpMethod.POST,
+                    requestEntity,
+                    String.class);
+
+
+            HivisionDto hivisionDto = JSON.parseObject(response.getBody(), HivisionDto.class);
             if(!hivisionDto.isStatus()){
                 picVo.setMsg("未检测到人脸或多人脸");
                 return picVo;
@@ -167,7 +273,7 @@ public class ApiServiceImpl implements ApiService {
             record.setCreateTime(new Date());
             photoRecordService.save(record);
 
-            picVo.setCImg(hivisionDto.getImageBase64());
+            picVo.setCimg(hivisionDto.getImageBase64());
             return picVo;
         } catch (Exception e) {
             e.printStackTrace();
@@ -178,29 +284,6 @@ public class ApiServiceImpl implements ApiService {
 
     }
 
-private HivisionDto updateIdPhotoTwo(String img,String colors) throws Exception {
-    RestTemplate restTemplate = new RestTemplate();
-
-    // 构建 multipart 数据
-    HttpHeaders headers = new HttpHeaders();
-    headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-
-    MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-    MultipartFile multipartFile = PicUtil.base64ToMultipartFile(img);
-    body.add("input_image", new PicUtil.MultipartInputStreamFileResource(multipartFile));
-    body.add("color", colors);
-
-    HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
-
-    ResponseEntity<String> response = restTemplate.exchange(
-            zjzDomain+"/add_background",
-            HttpMethod.POST,
-            requestEntity,
-            String.class);
-
-
-    return JSON.parseObject(response.getBody(), HivisionDto.class);
-}
 
 
 
@@ -240,7 +323,7 @@ private HivisionDto updateIdPhotoTwo(String img,String colors) throws Exception 
 //            return picVo;
 //        }
 
-        //不开启鉴黄，实际测试生成后的存在会被误判
+        //不开启鉴黄，因为测试生成后的图片存在误判
 //        WebSet webSet = webSetService.getById(1);
 //        //如果开启鉴黄
 //        if(webSet.getSafetyApi()==2){

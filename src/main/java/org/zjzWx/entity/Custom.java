@@ -40,6 +40,10 @@ public class Custom {
      * 尺寸-高
      */
     private Integer heightMm;
+    /**
+     * 分辨率
+     */
+    private Integer dpi;
 
     @TableField(exist = false)
     private String size;

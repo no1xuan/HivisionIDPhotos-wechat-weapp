@@ -43,6 +43,16 @@ public class ApiController {
         return R.ok(idPhoto);
     }
 
+    @PostMapping("/createIdHdPhoto")
+    public R createIdHdPhoto(@RequestBody CreatePhotoDto createPhotoDto) {
+        createPhotoDto.setUserId(Integer.parseInt(StpUtil.getTokenInfo().getLoginId().toString()));
+        PicVo idPhoto = apiService.createIdHdPhoto(createPhotoDto);
+        if(null!=idPhoto.getMsg()){
+            return R.no(idPhoto.getMsg());
+        }
+        return R.ok(idPhoto);
+    }
+
     @PostMapping("/updateIdPhoto")
     public R updateIdPhoto(@RequestBody CreatePhotoDto createPhotoDto) {
         createPhotoDto.setUserId(Integer.parseInt(StpUtil.getTokenInfo().getLoginId().toString()));

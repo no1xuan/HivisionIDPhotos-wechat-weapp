@@ -7,8 +7,11 @@ import org.zjzWx.util.R;
 public interface ApiService {
 
 
- //生成证件照，初始化，返回原图（用于下载高清），蓝图（用于初始化页面），透明图（用于切换颜色）
+ //生成证件照，初始化，返回原图（用于下载高清），透明图（用于切换颜色）
  PicVo createIdPhoto(CreatePhotoDto createPhotoDto);
+
+ //生成高清证件照
+ PicVo createIdHdPhoto(CreatePhotoDto createPhotoDto);
 
  //换背景色
  PicVo updateIdPhoto(CreatePhotoDto createPhotoDto);
