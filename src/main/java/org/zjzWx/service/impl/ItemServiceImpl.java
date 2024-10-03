@@ -27,9 +27,7 @@ public class ItemServiceImpl extends ServiceImpl<ItemDao,Item> implements ItemSe
             Page<Custom> page = new Page<>(pageNum, pageSize);
             QueryWrapper<Custom> qw = new QueryWrapper<>();
             qw.eq("user_id",userId);
-            if(name!=null && !name.equals("")){
-                qw.like("name",name);
-            }
+            qw.orderByDesc("create_time");
             Page<Custom> page2 = customService.page(page, qw);
             return (List<T>) page2.getRecords();
         }
