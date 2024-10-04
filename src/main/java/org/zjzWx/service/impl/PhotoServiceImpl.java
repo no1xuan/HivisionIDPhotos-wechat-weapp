@@ -4,11 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.zjzWx.dao.PhotoDao;
-import org.zjzWx.entity.Custom;
 import org.zjzWx.entity.Photo;
 import org.zjzWx.service.PhotoService;
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 

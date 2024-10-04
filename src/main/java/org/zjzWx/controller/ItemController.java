@@ -3,7 +3,6 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.web.bind.annotation.*;
 import org.zjzWx.entity.Custom;
-import org.zjzWx.entity.Item;
 import org.zjzWx.entity.Photo;
 import org.zjzWx.service.CustomService;
 import org.zjzWx.service.ItemService;
@@ -14,8 +13,6 @@ import org.zjzWx.util.R;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/item")

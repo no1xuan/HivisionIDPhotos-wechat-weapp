@@ -1,6 +1,5 @@
 package org.zjzWx.service.impl;
 
-import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.zjzWx.dao.UserDao;
-import org.zjzWx.entity.PhotoRecord;
 import org.zjzWx.entity.User;
 import org.zjzWx.entity.WebSet;
 import org.zjzWx.model.vo.WxLoginVo;
@@ -25,7 +23,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -60,6 +57,9 @@ public class UserServiceImpl extends ServiceImpl<UserDao,User> implements UserSe
             //格式化微信官方返回
             JSONObject jsonopenid = JSONObject.parseObject(content);
             String openid = jsonopenid.getString("openid");
+            if(null==openid){  //高风险用户会存在openid没有的情况
+                return null;
+            }
 
             QueryWrapper<User> qw = new QueryWrapper<>();
             qw.eq("openid",openid);

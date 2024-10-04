@@ -5,7 +5,6 @@ import org.zjzWx.dao.WebSetDao;
 import org.zjzWx.entity.WebSet;
 import org.zjzWx.service.WebSetService;
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
 
 
 @Service

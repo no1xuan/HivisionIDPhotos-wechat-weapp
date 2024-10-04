@@ -3,9 +3,7 @@ package org.zjzWx.service.impl;
 import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.*;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -18,20 +16,15 @@ import org.zjzWx.model.dto.HivisionDto;
 import org.zjzWx.model.vo.PicVo;
 import org.zjzWx.service.*;
 import org.zjzWx.util.PicUtil;
-import org.zjzWx.util.R;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
-import java.util.Base64;
 import java.util.Date;
 
-@SuppressWarnings("DataFlowIssue")
 @Service
 public class ApiServiceImpl implements ApiService {
 

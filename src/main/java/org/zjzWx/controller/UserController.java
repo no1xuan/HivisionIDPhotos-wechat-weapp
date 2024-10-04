@@ -3,13 +3,12 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.zjzWx.entity.Photo;
 import org.zjzWx.entity.User;
+import org.zjzWx.model.vo.WxLoginVo;
 import org.zjzWx.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.zjzWx.util.R;
 
-import java.util.Date;
 
 @RestController
 @RequestMapping("/user")
@@ -22,10 +21,14 @@ public class UserController {
     //登录
     @GetMapping("/login")
     public R login(String code){
-        if(code==null){
-            return R.no(null);
+        if(null==code){
+            return R.no();
         }
-       return R.ok(userService.wxlogin(code));
+        WxLoginVo wxlogin = userService.wxlogin(code);
+        if(null==wxlogin){
+            return R.no();
+        }
+        return R.ok(wxlogin);
     }
 
     //获取用户信息

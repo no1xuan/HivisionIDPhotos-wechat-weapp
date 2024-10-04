@@ -1,38 +1,21 @@
 package org.zjzWx.service.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
-import org.zjzWx.entity.PhotoRecord;
-import org.zjzWx.entity.WebSet;
-import org.zjzWx.model.dto.CreatePhotoDto;
-import org.zjzWx.model.vo.PicVo;
 import org.zjzWx.service.UploadService;
-import org.zjzWx.service.WebSetService;
 import org.zjzWx.util.PicUtil;
 import org.zjzWx.util.R;
 
-import java.io.File;
+
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.text.SimpleDateFormat;
 import java.util.Base64;
-import java.util.Date;
 
 @Service
 public class UploadServiceImpl implements UploadService {

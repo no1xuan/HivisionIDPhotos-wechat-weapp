@@ -5,7 +5,6 @@ import org.zjzWx.dao.PhotoRecordDao;
 import org.zjzWx.entity.PhotoRecord;
 import org.zjzWx.service.PhotoRecordService;
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
 
 
 @Service
