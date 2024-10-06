@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2024-10-02 22:56:20
+-- 生成日期： 2024-10-07 00:26:18
 -- 服务器版本： 8.0.35
 -- PHP 版本： 8.0.26
 
@@ -18,8 +18,20 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- 数据库： `123456`
+-- 数据库： `zjzwx`
 --
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `admin`
+--
+
+CREATE TABLE `admin` (
+  `id` int NOT NULL COMMENT '管理员登录识别码表',
+  `status` int NOT NULL DEFAULT '0' COMMENT '0等待登录，1登录成功',
+  `code` bigint DEFAULT NULL COMMENT '识别码'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -48,7 +60,7 @@ CREATE TABLE `custom` (
 
 CREATE TABLE `item` (
   `id` int NOT NULL COMMENT '尺寸表',
-  `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '名称',
+  `name` varchar(255) CHARACTER SET utf8mb3 NOT NULL COMMENT '名称',
   `width_px` int NOT NULL DEFAULT '0' COMMENT '像素-宽',
   `height_px` int NOT NULL DEFAULT '0' COMMENT '像素-高',
   `width_mm` int NOT NULL DEFAULT '0' COMMENT '尺寸-宽',
@@ -833,10 +845,10 @@ INSERT INTO `item` (`id`, `name`, `width_px`, `height_px`, `width_mm`, `height_m
 CREATE TABLE `photo` (
   `id` int NOT NULL COMMENT '用户保存记录表',
   `user_id` int DEFAULT NULL COMMENT '用户id',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '规格名字',
+  `name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '规格名字',
   `o_img` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '原图，隐私考虑暂不启用',
   `n_img` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '保存图',
-  `size` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '尺寸',
+  `size` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '尺寸',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -848,7 +860,7 @@ CREATE TABLE `photo` (
 
 CREATE TABLE `photo_record` (
   `id` int NOT NULL COMMENT '用户行为记录',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '名字',
+  `name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '名字',
   `user_id` int DEFAULT NULL COMMENT '用户id',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -875,17 +887,30 @@ CREATE TABLE `user` (
 
 CREATE TABLE `web_set` (
   `id` int NOT NULL COMMENT '应用设置表',
-  `app_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '小程序appid',
-  `app_secret` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '小程序AppSecret',
+  `app_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '小程序appid',
+  `app_secret` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '小程序AppSecret',
   `download_one` int DEFAULT '1' COMMENT '保存预览照：1免费下载，2看广告下载',
   `download_two` int DEFAULT '1' COMMENT '保存AI高清照：1免费下载，2看广告下载',
   `safety_api` int DEFAULT '1' COMMENT '是否开启鉴黄：1关闭，2开启',
-  `video_unit_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '广告位id'
+  `video_unit_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '广告位id'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- 转存表中的数据 `web_set`
+--
+
+INSERT INTO `web_set` (`id`, `app_id`, `app_secret`, `download_one`, `download_two`, `safety_api`, `video_unit_id`) VALUES
+(1, '0', '0', 1, 1, 1, '0');
 
 --
 -- 转储表的索引
 --
+
+--
+-- 表的索引 `admin`
+--
+ALTER TABLE `admin`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- 表的索引 `custom`
@@ -928,6 +953,12 @@ ALTER TABLE `web_set`
 --
 
 --
+-- 使用表AUTO_INCREMENT `admin`
+--
+ALTER TABLE `admin`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT COMMENT '管理员登录识别码表';
+
+--
 -- 使用表AUTO_INCREMENT `custom`
 --
 ALTER TABLE `custom`
@@ -961,7 +992,7 @@ ALTER TABLE `user`
 -- 使用表AUTO_INCREMENT `web_set`
 --
 ALTER TABLE `web_set`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT COMMENT '应用设置表';
+  MODIFY `id` int NOT NULL AUTO_INCREMENT COMMENT '应用设置表', AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
