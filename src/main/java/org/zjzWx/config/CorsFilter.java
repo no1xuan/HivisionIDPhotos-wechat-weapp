@@ -31,14 +31,16 @@ public class CorsFilter implements Filter {
 		// 有效时间
 		response.setHeader("Access-Control-Max-Age", "3600");
 		// 允许的header参数
-		response.setHeader("Access-Control-Allow-Headers", "x-requested-with,satoken");
+		response.setHeader("Access-Control-Allow-Headers", "x-requested-with, satoken, token, content-type");
+
 
 		// 如果是预检请求，直接返回
 		if (OPTIONS.equals(request.getMethod())) {
 			System.out.println("=======================浏览器发来了OPTIONS预检请求==========");
-			response.getWriter().print("");
+			response.setStatus(HttpServletResponse.SC_OK);
 			return;
 		}
+
 
 		chain.doFilter(req, res);
 	}

@@ -27,9 +27,8 @@ public class SaTokenConfigure {
                 // 认证函数: 每次请求执行
                 .setAuth(obj -> {
                     System.out.println("---------- 进入Sa-Token全局认证 -----------");
-
                     // 登录认证 -- 拦截所有路由，并排除/user/doLogin 用于开放登录
-                    SaRouter.match("/**").notMatch("/user/login","/item/itemList").check(r -> StpUtil.checkLogin());
+                    SaRouter.match("/**").notMatch("/user/login","/item/itemList","/admin/login","/admin/checkLogin","/admin/okLogin").check(r -> StpUtil.checkLogin());
 
                     // 更多拦截处理方式，请参考“路由拦截式鉴权”章节 */
                 })
@@ -49,7 +48,7 @@ public class SaTokenConfigure {
                     // 服务器名称
                     .setServer("zjzWx")
                     // 是否可以在iframe显示视图： DENY=不可以 | SAMEORIGIN=同域下可以 | ALLOW-FROM uri=指定域名下可以
-                    .setHeader("X-Frame-Options", "SAMEORIGIN")
+                    .setHeader("X-Frame-Options", "DENY")
                     // 是否启用浏览器默认XSS防护： 0=禁用 | 1=启用 | 1; mode=block 启用, 并在检查到XSS攻击时，停止渲染页面
                     .setHeader("X-XSS-Protection", "1; mode=block")
                     // 禁用浏览器内容嗅探
