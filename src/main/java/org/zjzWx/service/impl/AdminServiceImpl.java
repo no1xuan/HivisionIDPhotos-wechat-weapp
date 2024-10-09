@@ -253,7 +253,6 @@ public class AdminServiceImpl extends ServiceImpl<AdminDao, Admin> implements Ad
         adminIndexVo.setChartDataVo(chartData);
 
 
-        // 返回统计数据
         return adminIndexVo;
 
     }
