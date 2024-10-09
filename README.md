@@ -82,6 +82,7 @@ uniapp多端兼容版：https://github.com/wmlcjj/AI-IDPhoto
 - 支持普通下载和高清下载
 - 支持引导用户打开保存相册
 - 支持相机拍摄和相册选择
+- 支持管理员网页后台
 
 
 <br />
