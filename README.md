@@ -94,7 +94,6 @@ uniapp多端兼容版：https://github.com/wmlcjj/AI-IDPhoto
 - 黑白图片上色
 - 粘土风写真生成
 - 无感登录
-- 管理员的后台管理
 
 
 
