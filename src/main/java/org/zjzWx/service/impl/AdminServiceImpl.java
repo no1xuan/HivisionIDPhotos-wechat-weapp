@@ -13,7 +13,6 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.zjzWx.dao.AdminDao;
-import org.zjzWx.dao.PhotoDao;
 import org.zjzWx.entity.*;
 import org.zjzWx.model.vo.AdminIndexVo;
 import org.zjzWx.model.vo.AdminLoginVo;
@@ -23,14 +22,11 @@ import org.zjzWx.util.HttpClient;
 import org.zjzWx.util.R;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.util.*;
 
 @Service
@@ -186,14 +182,16 @@ public class AdminServiceImpl extends ServiceImpl<AdminDao, Admin> implements Ad
 
 
 
+
     @Override
     public AdminIndexVo adminIndex() {
         // 获取当前日期
-        LocalDate today = LocalDate.now();
-        //当天的开始时间
-        LocalDateTime startOfDay = today.atStartOfDay();
-        //当天的结束时间
-        LocalDateTime endOfDay = LocalDateTime.now(); // 改为当前时间的精确时间，而不是当天的最后时间
+        ZonedDateTime now = ZonedDateTime.now(ZoneId.systemDefault());
+        LocalDate today = now.toLocalDate();
+        // 当天的开始时间
+        LocalDateTime startOfDay = today.atStartOfDay(); // 默认时区
+        // 当天的结束时间
+        LocalDateTime endOfDay = LocalDateTime.of(today, LocalTime.MAX); // 使用当天的最后一刻
 
         AdminIndexVo adminIndexVo = new AdminIndexVo();
 
@@ -253,7 +251,11 @@ public class AdminServiceImpl extends ServiceImpl<AdminDao, Admin> implements Ad
         chartData.setTime(timeList);
         chartData.setData(dataList);
         adminIndexVo.setChartDataVo(chartData);
+
+
+        // 返回统计数据
         return adminIndexVo;
+
     }
 
 
