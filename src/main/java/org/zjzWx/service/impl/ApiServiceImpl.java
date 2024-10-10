@@ -90,7 +90,7 @@ public class ApiServiceImpl implements ApiService {
             body.add("height",createPhotoDto.getHeight());
             body.add("width", createPhotoDto.getWidth());
             body.add("dpi",createPhotoDto.getDpi());
-            body.add("human_matting_model","hivision_modne");  //指定最快模型
+            body.add("human_matting_model","hivision_modnet");  //指定最快模型
             body.add("hd",false);  //减少时间，不生成高清
             body.add("face_alignment",true);  //人脸对齐
 
@@ -185,7 +185,7 @@ public class ApiServiceImpl implements ApiService {
             body.add("height",createPhotoDto.getHeight());
             body.add("width", createPhotoDto.getWidth());
             body.add("dpi",createPhotoDto.getDpi());
-            body.add("human_matting_model","hivision_modne");  //指定最快模型
+            body.add("human_matting_model","hivision_modnet");  //指定最快模型
             body.add("hd",true);
             body.add("face_alignment",true);  //人脸对齐
 
