@@ -184,7 +184,6 @@ public class ApiServiceImpl implements ApiService {
             body.add("input_image_base64", createPhotoDto.getImage());
             body.add("height",createPhotoDto.getHeight());
             body.add("width", createPhotoDto.getWidth());
-            body.add("dpi",createPhotoDto.getDpi());
             body.add("human_matting_model","hivision_modnet");  //指定最快模型
             body.add("hd",true);
             body.add("face_alignment",true);  //人脸对齐
@@ -235,8 +234,11 @@ public class ApiServiceImpl implements ApiService {
             MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
             body.add("input_image_base64", createPhotoDto.getImage());
             body.add("render",createPhotoDto.getRender());
-            body.add("dpi",createPhotoDto.getDpi());
             body.add("color",createPhotoDto.getColors());
+            //非高清下载时传输dpi
+            if(createPhotoDto.getDpi()>0){
+                body.add("dpi",createPhotoDto.getDpi());
+            }
             //如果用户设置了kb
             if(createPhotoDto.getKb()>0){
                 body.add("kb",createPhotoDto.getKb());
