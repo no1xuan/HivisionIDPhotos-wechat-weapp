@@ -25,6 +25,7 @@
 一些由爱好者进行二次开发的项目，非官方维护：
 
 uniapp多端兼容版：https://github.com/wmlcjj/AI-IDPhoto
+<br/>
 二开增加功能版：https://github.com/whynottogo/aiPhotoWechat
 
 <hr>
