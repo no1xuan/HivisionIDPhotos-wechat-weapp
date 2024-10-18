@@ -14,6 +14,7 @@
 **相关项目**：
 
 - 小程序前端请前往：https://github.com/no1xuan/photo
+- 小程序前端另外一套请前往：https://github.com/no1xuan/ai-photo
 - 小程序管理员网页后台请前往：https://github.com/no1xuan/zjzAdmin
 - HivisionIDPhotos：https://github.com/Zeyi-Lin/HivisionIDPhotos
 
@@ -24,6 +25,7 @@
 一些由爱好者进行二次开发的项目，非官方维护：
 
 uniapp多端兼容版：https://github.com/wmlcjj/AI-IDPhoto
+二开增加功能版：https://github.com/whynottogo/aiPhotoWechat
 
 <hr>
 <br>
