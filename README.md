@@ -110,6 +110,7 @@ uniapp多端兼容版：https://github.com/wmlcjj/AI-IDPhoto
 # 🔧部署
 
 视频教程：https://www.bilibili.com/video/BV1yFCRYCEKS
+<p></p>
 环境工作准备：
 
 1. 
