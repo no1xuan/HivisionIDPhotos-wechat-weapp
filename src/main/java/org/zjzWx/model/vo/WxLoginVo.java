@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class WxLoginVo {
     private String token;
     private String openid;
+    private String msg;
 }

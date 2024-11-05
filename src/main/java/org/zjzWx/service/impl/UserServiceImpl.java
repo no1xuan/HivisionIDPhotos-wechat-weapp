@@ -44,7 +44,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao,User> implements UserSe
 
     @Override
     public WxLoginVo wxlogin(String code) {
-        WxLoginVo wxlogin = null;
+        WxLoginVo wxlogin = new WxLoginVo();
         try {
             WebSet webSet = webSetService.getById(1);
             //发起登录请求
@@ -57,8 +57,9 @@ public class UserServiceImpl extends ServiceImpl<UserDao,User> implements UserSe
             //格式化微信官方返回
             JSONObject jsonopenid = JSONObject.parseObject(content);
             String openid = jsonopenid.getString("openid");
-            if(null==openid){  //高风险用户会存在openid没有的情况
-                return null;
+            if(null==openid){  //高风险用户会存在openid没有的情况/数据库配置错误/安全域名没有添加也会出现
+                wxlogin.setMsg(jsonopenid.toString());
+                return wxlogin;
             }
 
             QueryWrapper<User> qw = new QueryWrapper<>();
@@ -70,12 +71,12 @@ public class UserServiceImpl extends ServiceImpl<UserDao,User> implements UserSe
             }
             StpUtil.login(user.getId());
             //封装信息返回前端
-            wxlogin = new WxLoginVo();
             wxlogin.setOpenid(openid);
             wxlogin.setToken(StpUtil.getTokenInfo().getTokenValue());
 
 
         } catch (IOException e) {
+            wxlogin.setMsg("代码报错");
             e.printStackTrace();
         }
         return wxlogin;

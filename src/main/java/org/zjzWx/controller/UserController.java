@@ -25,10 +25,10 @@ public class UserController {
             return R.no();
         }
         WxLoginVo wxlogin = userService.wxlogin(code);
-        if(null==wxlogin){
-            return R.no();
+        if(null!=wxlogin.getOpenid()){
+            return R.ok(wxlogin);
         }
-        return R.ok(wxlogin);
+        return R.no(wxlogin.getMsg());
     }
 
     //获取用户信息
