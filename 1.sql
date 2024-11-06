@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2024-10-07 00:26:18
+-- 生成日期： 2024-11-06 10:41:02
 -- 服务器版本： 8.0.35
 -- PHP 版本： 8.0.26
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- 数据库： `zjzwx`
+-- 数据库： `zjzwx2`
 --
 
 -- --------------------------------------------------------
@@ -42,7 +42,7 @@ CREATE TABLE `admin` (
 CREATE TABLE `custom` (
   `id` int NOT NULL COMMENT '用户定制尺寸表',
   `user_id` int DEFAULT NULL COMMENT '用户id',
-  `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '名称',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '名称',
   `width_px` int NOT NULL DEFAULT '0' COMMENT '像素-宽',
   `height_px` int NOT NULL DEFAULT '0' COMMENT '像素-高',
   `width_mm` int NOT NULL DEFAULT '0' COMMENT '尺寸-宽',
@@ -60,7 +60,7 @@ CREATE TABLE `custom` (
 
 CREATE TABLE `item` (
   `id` int NOT NULL COMMENT '尺寸表',
-  `name` varchar(255) CHARACTER SET utf8mb3 NOT NULL COMMENT '名称',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '名称',
   `width_px` int NOT NULL DEFAULT '0' COMMENT '像素-宽',
   `height_px` int NOT NULL DEFAULT '0' COMMENT '像素-高',
   `width_mm` int NOT NULL DEFAULT '0' COMMENT '尺寸-宽',
@@ -845,10 +845,10 @@ INSERT INTO `item` (`id`, `name`, `width_px`, `height_px`, `width_mm`, `height_m
 CREATE TABLE `photo` (
   `id` int NOT NULL COMMENT '用户保存记录表',
   `user_id` int DEFAULT NULL COMMENT '用户id',
-  `name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '规格名字',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '规格名字',
   `o_img` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '原图，隐私考虑暂不启用',
   `n_img` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '保存图',
-  `size` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '尺寸',
+  `size` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '尺寸',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -860,7 +860,7 @@ CREATE TABLE `photo` (
 
 CREATE TABLE `photo_record` (
   `id` int NOT NULL COMMENT '用户行为记录',
-  `name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '名字',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '名字',
   `user_id` int DEFAULT NULL COMMENT '用户id',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -873,9 +873,9 @@ CREATE TABLE `photo_record` (
 
 CREATE TABLE `user` (
   `id` int NOT NULL COMMENT '用户表id',
-  `openid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'openid',
-  `nickname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '用户名字',
-  `avatar_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '用户头像',
+  `openid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'openid',
+  `nickname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用户名字',
+  `avatar_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用户头像',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -887,8 +887,8 @@ CREATE TABLE `user` (
 
 CREATE TABLE `web_set` (
   `id` int NOT NULL COMMENT '应用设置表',
-  `app_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '小程序appid',
-  `app_secret` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '小程序AppSecret',
+  `app_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '小程序appid',
+  `app_secret` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '小程序AppSecret',
   `download_one` int DEFAULT '1' COMMENT '保存预览照：1免费下载，2看广告下载',
   `download_two` int DEFAULT '1' COMMENT '保存AI高清照：1免费下载，2看广告下载',
   `safety_api` int DEFAULT '1' COMMENT '是否开启鉴黄：1关闭，2开启',
