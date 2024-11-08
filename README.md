@@ -81,17 +81,18 @@ uniapp多端兼容版：https://github.com/wmlcjj/AI-IDPhoto
 - 无需单独购买API
 - 本地0成本处理
 - 无限免费调用API
+- 自带759+尺寸
 - 不保存用户图片，仅保存生成后的最新一张
 - 支持水印
 - 支持流量主
 - 支持自由开关鉴黄
-- 自带759+尺寸
 - 支持自定义尺寸
 - 支持自定义更换背景色
 - 支持普通下载和高清下载
 - 支持引导用户打开保存相册
 - 支持相机拍摄和相册选择
 - 支持管理员网页后台
+- 黑白图片上色
 
 
 <br />
@@ -101,7 +102,6 @@ uniapp多端兼容版：https://github.com/wmlcjj/AI-IDPhoto
 - 14种衣服自由换装
 - 跟上最新HivisionIDPhotos模型
 - 物品自定义抠图
-- 黑白图片上色
 - 粘土风写真生成
 - 无感登录
 
@@ -178,6 +178,7 @@ uniapp多端兼容版：https://github.com/wmlcjj/AI-IDPhoto
 鉴黄APi：http://121.62.63.137:3006/
 
 证件照APi：http://121.62.63.137:8299/
+
 黑白图片：http://colourize.0po.cn/
 
 <hr>
