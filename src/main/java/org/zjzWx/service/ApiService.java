@@ -4,6 +4,7 @@ import org.zjzWx.model.dto.CreatePhotoDto;
 import org.zjzWx.model.vo.PicVo;
 import org.zjzWx.util.R;
 
+//证件照相关API
 public interface ApiService {
 
 

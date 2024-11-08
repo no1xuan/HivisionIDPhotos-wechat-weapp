@@ -69,7 +69,7 @@ public class ItemController {
         return R.ok(photos);
     }
 
-    //删除作品
+    //删除作品（下个版本更新物理删除）
     @GetMapping("/deletePhotoId")
     public R deletePhotoId(int id){
         QueryWrapper<Photo> qw = new QueryWrapper<>();

@@ -40,7 +40,6 @@ public class UploadServiceImpl implements UploadService {
             body.add("file",new PicUtil.MultipartInputStreamFileResource(multipartFile));
 
             HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
-
             ResponseEntity<String> response = restTemplate.exchange(
                     safetyDomain+"checkImg",
                     HttpMethod.POST,
@@ -48,14 +47,14 @@ public class UploadServiceImpl implements UploadService {
                     String.class);
 
 
-            // 解析响应的 JSON 字符串
+            // 解析JSON获取鉴黄结果
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(response.getBody());
             String code = jsonNode.get("code").asText();
             if(code.equals("0")){
                 return null;
             }else {
-                return "图片色情，制作失败";
+                return jsonNode.get("msg").asText();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -85,7 +84,6 @@ public class UploadServiceImpl implements UploadService {
                 imagePrefix = "data:image/jpeg;base64,";
             }
 
-            //进行图片鉴黄
             return R.ok(imagePrefix + base64Image);
 
         } catch (IOException e) {

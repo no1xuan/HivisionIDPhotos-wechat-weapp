@@ -16,7 +16,7 @@
 - 小程序前端请前往：https://github.com/no1xuan/photo
 - 小程序前端另外一套请前往：https://github.com/no1xuan/ai-photo
 - 小程序管理员网页后台请前往：https://github.com/no1xuan/zjzAdmin
-- HivisionIDPhotos：https://github.com/Zeyi-Lin/HivisionIDPhotos
+- HivisionIDPhotos（证件照API）：https://github.com/Zeyi-Lin/HivisionIDPhotos
 
 <hr>
 <br>
@@ -32,7 +32,8 @@ uniapp多端兼容版：https://github.com/wmlcjj/AI-IDPhoto
 <br>
 
 # ⭐最近更新
-- 2024.11.06：让1.sql文件同时支持Mysql5.7和8.0的版本，免去手动修改的麻烦，从此版本开始为长期稳定版本，基本不会频繁更新
+- 2024.11.08：增加黑白图片上色功能，从此版本开始为长期稳定版本，基本不会频繁更新
+- 2024.11.06：让1.sql文件同时支持Mysql5.7和8.0的版本，免去手动修改的麻烦
 - 2024.11.05：增加登录失败时返回错误原因
 - 2024.10.18：修复高清照一直没生效的问题
 - 2024.10.10：修复指定最快模型传参单词拼写错误
@@ -51,13 +52,14 @@ uniapp多端兼容版：https://github.com/wmlcjj/AI-IDPhoto
 
 #  📦前提准备
 
-本项目基于HivisionIDPhotos的2024.09.25更新的版本进行对接开发
+本项目证件照功能的API是基于HivisionIDPhotos的2024.09.25更新的版本进行对接开发
 
 理论HivisionIDPhotos不改变入参和返回，即可直接使用最新版
 
 1. 2024.09.25的HivisionIDPhotos（以内置MTCNN+hivision_modnet模型）下载：https://wwba.lanzouq.com/ihjM02bfoz0d
 
-2. 鉴黄APi端下载：https://github.com/no1xuan/zjzNsfw
+2. 鉴黄APi下载：https://github.com/no1xuan/zjzNsfw
+3. 黑白图片上色API：https://github.com/no1xuan/colourize
 
 注意:
 
@@ -175,7 +177,8 @@ uniapp多端兼容版：https://github.com/wmlcjj/AI-IDPhoto
 
 鉴黄APi：http://121.62.63.137:3006/
 
-证件照APi:  http://121.62.63.137:8299/
+证件照APi：http://121.62.63.137:8299/
+黑白图片：http://colourize.0po.cn/
 
 <hr>
 <br>

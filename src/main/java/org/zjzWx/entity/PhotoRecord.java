@@ -17,7 +17,7 @@ public class PhotoRecord {
 /**
      * 用户行为记录
      */
-@TableId(type = IdType.AUTO)
+    @TableId(type = IdType.AUTO)
     private Integer id;
 /**
      * 名字
@@ -30,7 +30,7 @@ public class PhotoRecord {
 /**
      * 创建时间
      */
-@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
 

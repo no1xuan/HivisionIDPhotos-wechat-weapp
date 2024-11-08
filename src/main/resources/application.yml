@@ -88,4 +88,6 @@ webset:
   safetyDomain: http://127.0.0.1:3006/
   #证件照APi地址
   zjzDomain: http://127.0.0.1:8080/
+  #黑白图片上色APi地址
+  colourizeDomain: http://127.0.0.1/
   envVersion: release #二维码-正式版为 "release"，体验版为 "trial"，开发版为 "develop"

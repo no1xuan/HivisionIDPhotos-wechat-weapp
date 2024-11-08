@@ -10,10 +10,10 @@ import lombok.NoArgsConstructor;
 public class HivisionDto {
     //是否制作成功
     private boolean status;
-    //初始化白底证件照图片
+    //不高清抠图透明图片
     private String imageBase64Standard;
     //高清抠图透明图片
     private String imageBase64Hd;
-    //切换颜色上色后图片
+    //切换颜色后的上色图片
     private String imageBase64;
 }

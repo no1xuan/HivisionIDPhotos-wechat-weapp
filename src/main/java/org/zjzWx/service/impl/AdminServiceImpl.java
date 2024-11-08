@@ -61,9 +61,8 @@ public class AdminServiceImpl extends ServiceImpl<AdminDao, Admin> implements Ad
             mp.put("scene", code);
             mp.put("page", "pages/admin/index");
             mp.put("check_path", false);
-            // 要打开的小程序版本。正式版为 "release"，体验版为 "release"，开发版为 "develop"。默认是正式版.
+            // 要打开的小程序版本。正式版为 "release"，体验版为 "release"，开发版为 "develop"。默认是正式版
             mp.put("env_version", envVersion);
-            // 获取access_token 2小时过期一次
             String url1 = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + webSet.getAppId() + "&secret=" + webSet.getAppSecret();
             HttpClient http1 = new HttpClient(url1);
             http1.setHttps(true);

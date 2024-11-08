@@ -19,7 +19,7 @@ public class CreatePhotoDto {
     private Integer itemId;
     //记录id
     private Integer photoId;
-    //换色方式  0纯色 1上下渐变 2中心渐变。
+    //换色方式  0纯色 1上下渐变 2中心渐变
     private Integer render;
     //图片kb
     private Integer kb;

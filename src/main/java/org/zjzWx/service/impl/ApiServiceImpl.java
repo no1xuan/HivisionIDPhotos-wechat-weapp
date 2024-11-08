@@ -31,6 +31,14 @@ public class ApiServiceImpl implements ApiService {
     @Value("${webset.zjzDomain}")
     private String zjzDomain;
 
+    @Value("${webset.directory}")
+    private String directory;
+
+    @Value("${webset.picDomain}")
+    private String picDomain;
+
+
+
     @Autowired
     private CustomService customService;
     @Autowired
@@ -40,11 +48,7 @@ public class ApiServiceImpl implements ApiService {
     @Autowired
     private PhotoRecordService photoRecordService;
 
-    @Value("${webset.directory}")
-    private String directory;
 
-    @Value("${webset.picDomain}")
-    private String picDomain;
 
 
 
@@ -300,7 +304,7 @@ public class ApiServiceImpl implements ApiService {
 
 
         //因为图片没刚开始存库，是为了防止性能浪费，所有由前端传入
-        // 将图片转成MultipartFile，再次检查，防止数据伪造，如：被劫持数据包上传黄色，木马什么的
+        //将图片转成MultipartFile，再次检查，防止数据伪造，如：被劫持数据包上传黄色，木马什么的
         MultipartFile file = PicUtil.base64ToMultipartFile(img);
 
 
@@ -330,44 +334,33 @@ public class ApiServiceImpl implements ApiService {
 //        }
 
 
-    //检查通过，上传服务器，数据库保存url
-    //之前试过保存base64，发现数据库加载很慢，性能很低
+       //检查通过，上传服务器，数据库保存url
+       //之前试过保存base64，发现数据库加载很慢，性能很低
         try {
-        // 创建文件存储目录
+        //按照日期保存文件
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
         String folderName = dateFormat.format(new Date());
-        File uploadFolder = new File(directory, folderName);
-        if (!uploadFolder.exists()) {
-            uploadFolder.mkdirs();
-        }
-
-        // 生成新的文件名
-        String filename = PicUtil.generateUniqueFilename(originalFilename, file);
-        Path filePath = uploadFolder.toPath().resolve(filename);
+        String filename = PicUtil.filesCopy(folderName, directory, originalFilename, file);
 
 
-            // 保存文件
-            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-            //nginx帮助
-            String imagePath = picDomain + folderName + "/" + filename;
-            photo.setId(photoId);
-            photo.setNImg(imagePath);
-            photoService.updateById(photo);
+        String imagePath = picDomain + folderName + "/" + filename;
+        photo.setId(photoId);
+        photo.setNImg(imagePath);
+        photoService.updateById(photo);
 
 
-            //保存用户行为记录
-            PhotoRecord record = new PhotoRecord();
-            record.setName("下载证件照");
-            record.setUserId(userid);
-            record.setCreateTime(new Date());
-            photoRecordService.save(record);
-            picVo.setPicUrl(imagePath);
-            return picVo;
+        //保存用户行为记录
+        PhotoRecord record = new PhotoRecord();
+        record.setName("下载证件照");
+        record.setUserId(userid);
+        record.setCreateTime(new Date());
+        photoRecordService.save(record);
+        picVo.setPicUrl(imagePath);
+        return picVo;
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            // 处理文件保存失败的情况
             picVo.setMsg("图片存入失败错误，请重试");
             return picVo;
         }

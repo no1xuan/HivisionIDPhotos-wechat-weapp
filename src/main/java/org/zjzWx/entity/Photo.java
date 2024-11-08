@@ -17,7 +17,7 @@ public class Photo {
 /**
      * 图片表
      */
-@TableId(type = IdType.AUTO)
+    @TableId(type = IdType.AUTO)
     private Integer id;
 /**
      * 用户id

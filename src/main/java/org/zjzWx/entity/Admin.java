@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Admin {
+
     @TableId(type = IdType.AUTO)
     private Integer id;
 

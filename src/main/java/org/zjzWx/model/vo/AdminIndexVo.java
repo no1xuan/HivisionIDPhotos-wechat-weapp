@@ -19,6 +19,6 @@ public class AdminIndexVo {
     //支持的规格（包含自定义）
     private long itemTotal;
 
-    //图标
+    //图表
     private ChartDataVo chartDataVo;
 }

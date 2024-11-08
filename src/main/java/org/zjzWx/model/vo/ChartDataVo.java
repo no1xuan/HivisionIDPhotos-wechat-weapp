@@ -6,7 +6,6 @@ public class ChartDataVo {
     private List<String> time;
     private List<Integer> data;
 
-    // Getter 和 Setter 方法
     public List<String> getTime() {
         return time;
     }

@@ -36,7 +36,7 @@ public class ImageUpload {
     @Autowired
     private PhotoRecordService photoRecordService;
 
-    //图片检查
+    //图片鉴黄，通过返回base64
     @PostMapping("/upload")
     public R uploadImage(@RequestParam("file") MultipartFile file) {
         if (file.isEmpty()) {

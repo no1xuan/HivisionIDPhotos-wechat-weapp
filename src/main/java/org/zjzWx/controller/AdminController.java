@@ -62,7 +62,7 @@ public class AdminController {
     }
 
 
-    //管理员首页数据
+    //首页数据
     @PostMapping("/adminIndex")
     public R adminIndex(){
         int id = Integer.parseInt(StpUtil.getTokenInfo().getLoginId().toString());
@@ -74,7 +74,7 @@ public class AdminController {
 
 
 
-    //管理员规格列表
+    //规格列表
     @PostMapping("/getItemPage")
     public R getItemPage(int pageNum, int pageSize, String name){
         int id = Integer.parseInt(StpUtil.getTokenInfo().getLoginId().toString());

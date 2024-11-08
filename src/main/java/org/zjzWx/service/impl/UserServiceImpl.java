@@ -57,7 +57,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao,User> implements UserSe
             //格式化微信官方返回
             JSONObject jsonopenid = JSONObject.parseObject(content);
             String openid = jsonopenid.getString("openid");
-            if(null==openid){  //高风险用户会存在openid没有的情况/数据库配置错误/安全域名没有添加也会出现
+            if(null==openid){  //高风险的微信用户会存在openid没有的情况/数据库配置错误/安全域名没有添加也会出现
                 wxlogin.setMsg(jsonopenid.toString());
                 return wxlogin;
             }
@@ -75,7 +75,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao,User> implements UserSe
             wxlogin.setToken(StpUtil.getTokenInfo().getTokenValue());
 
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             wxlogin.setMsg("代码报错");
             e.printStackTrace();
         }
@@ -123,27 +123,17 @@ public class UserServiceImpl extends ServiceImpl<UserDao,User> implements UserSe
         }
 
         try {
-            // 不按照日期，全部扔一个里面，方便排查是否被当图床，是否被上传黄色
-            String folderName = "avatar";
-            File uploadFolder = new File(directory, folderName);
-            if (!uploadFolder.exists()) {
-                uploadFolder.mkdirs();
-            }
+            // 进行存储图片
+            // 不按照日期，全部扔一个avatar文件夹里面，方便排查是否被当图床，是否被上传黄色
+            String filename = PicUtil.filesCopy("avatar", directory, originalFilename, file);
 
-            // 生成新的文件名
-            String filename = PicUtil.generateUniqueFilename(originalFilename, file);
-            Path filePath = uploadFolder.toPath().resolve(filename);
-
-
-            // 保存文件
-            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
             //nginx帮助
-            String imagePath = picDomain + folderName + "/" + filename;
+            String imagePath = picDomain + "avatar" + "/" + filename;
             mp.put("type",1);
             mp.put("msg",imagePath);
             return mp;
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             mp.put("type",0);
             mp.put("msg","头像保存失败，请重试");

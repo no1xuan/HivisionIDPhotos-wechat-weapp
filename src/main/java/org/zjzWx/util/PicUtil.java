@@ -4,7 +4,11 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
@@ -13,6 +17,28 @@ import java.util.Date;
 
 //图片工具类
 public class PicUtil {
+
+    //folderName          文件夹目录
+    //directory           图片路径
+    //originalFilename    原始图片名
+    //file                前端传过来的图片
+    public static String filesCopy(String folderName,String directory,String originalFilename,MultipartFile file) throws IOException {
+        String filename = null;
+
+        File uploadFolder = new File(directory, folderName);
+        if (!uploadFolder.exists()) {
+            uploadFolder.mkdirs();
+        }
+
+        // 生成新的文件名
+        filename = generateUniqueFilename(originalFilename, file);
+        Path filePath = uploadFolder.toPath().resolve(filename);
+        // 保存文件
+        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+        return filename;
+    }
+
 
 
     public static String generateUniqueFilename(String originalFilename, MultipartFile file) {
@@ -79,6 +105,9 @@ public class PicUtil {
                 data // 文件数据
         );
     }
+
+
+
 
 
 

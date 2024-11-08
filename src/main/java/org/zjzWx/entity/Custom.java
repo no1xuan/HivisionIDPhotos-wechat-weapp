@@ -15,6 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 @TableName("custom")
 public class Custom {
+
     @TableId(type = IdType.AUTO)
     private Integer id;
 /**

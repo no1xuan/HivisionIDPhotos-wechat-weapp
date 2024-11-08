@@ -23,6 +23,7 @@ public class ItemServiceImpl extends ServiceImpl<ItemDao,Item> implements ItemSe
     @Override
     public <T> List<T> itemList(int pageNum, int pageSize, int type, String userId,String name) {
 
+        //定制列表
         if(type==4){
             Page<Custom> page = new Page<>(pageNum, pageSize);
             QueryWrapper<Custom> qw = new QueryWrapper<>();
@@ -33,6 +34,7 @@ public class ItemServiceImpl extends ServiceImpl<ItemDao,Item> implements ItemSe
         }
 
 
+        //规格列表
         Page<Item> page = new Page<>(pageNum, pageSize);
         QueryWrapper<Item> qw = new QueryWrapper<>();
         if(name!=null && !name.equals("")){
