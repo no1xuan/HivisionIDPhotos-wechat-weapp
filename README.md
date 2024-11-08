@@ -179,7 +179,7 @@ uniapp多端兼容版：https://github.com/wmlcjj/AI-IDPhoto
 
 证件照APi：http://121.62.63.137:8299/
 
-黑白图片：http://colourize.0po.cn/
+黑白图片上色API：http://colourize.0po.cn/
 
 <hr>
 <br>
