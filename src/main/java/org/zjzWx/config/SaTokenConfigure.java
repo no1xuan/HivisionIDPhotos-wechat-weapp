@@ -27,8 +27,8 @@ public class SaTokenConfigure {
                 // 认证函数: 每次请求执行
                 .setAuth(obj -> {
                     System.out.println("---------- 进入Sa-Token全局认证 -----------");
-                    // 登录认证 -- 拦截所有路由，并排除/user/doLogin 用于开放登录
-                    SaRouter.match("/**").notMatch("/user/login","/item/itemList","/admin/login","/admin/checkLogin","/admin/okLogin").check(r -> StpUtil.checkLogin());
+                    // 登录认证 -- 拦截所有路由,特别url放行
+                    SaRouter.match("/**").notMatch("/user/login","/item/itemList","/admin/login","/admin/checkLogin","/admin/okLogin","/otherApi/exploreCount").check(r -> StpUtil.checkLogin());
 
                     // 更多拦截处理方式，请参考“路由拦截式鉴权”章节 */
                 })

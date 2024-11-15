@@ -17,11 +17,6 @@ import org.zjzWx.model.vo.PicVo;
 import org.zjzWx.service.*;
 import org.zjzWx.util.PicUtil;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -30,13 +25,15 @@ public class ApiServiceImpl implements ApiService {
 
     @Value("${webset.zjzDomain}")
     private String zjzDomain;
-
     @Value("${webset.directory}")
     private String directory;
-
     @Value("${webset.picDomain}")
     private String picDomain;
 
+    @Value("${modelset.humanMattingModel}")
+    private String humanMattingModel;
+    @Value("${modelset.faceDetectModel}")
+    private String faceDetectModel;
 
 
     @Autowired
@@ -94,7 +91,8 @@ public class ApiServiceImpl implements ApiService {
             body.add("height",createPhotoDto.getHeight());
             body.add("width", createPhotoDto.getWidth());
             body.add("dpi",createPhotoDto.getDpi());
-            body.add("human_matting_model","hivision_modnet");  //指定最快模型
+            body.add("human_matting_model",humanMattingModel);
+            body.add("face_detect_model",faceDetectModel);
             body.add("hd",false);  //减少时间，不生成高清
             body.add("face_alignment",true);  //人脸对齐
 
@@ -188,7 +186,8 @@ public class ApiServiceImpl implements ApiService {
             body.add("input_image_base64", createPhotoDto.getImage());
             body.add("height",createPhotoDto.getHeight());
             body.add("width", createPhotoDto.getWidth());
-            body.add("human_matting_model","hivision_modnet");  //指定最快模型
+            body.add("human_matting_model",humanMattingModel);
+            body.add("face_detect_model",faceDetectModel);
             body.add("hd",true);
             body.add("face_alignment",true);  //人脸对齐
 
@@ -366,8 +365,6 @@ public class ApiServiceImpl implements ApiService {
         }
 
     }
-
-
 
 
 

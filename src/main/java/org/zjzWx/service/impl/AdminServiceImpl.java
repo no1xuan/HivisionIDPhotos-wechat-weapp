@@ -160,7 +160,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminDao, Admin> implements Ad
             //格式化微信官方返回
             JSONObject jsonopenid = JSONObject.parseObject(content);
             String openid = jsonopenid.getString("openid");
-            if(null==openid){  //高风险用户会存在openid没有的情况
+            if(null==openid){  //高风险的微信用户/数据库配置错误/安全域名没有添加会存在openid没有的情况
                 return null;
             }
 

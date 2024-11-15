@@ -2,16 +2,14 @@ package org.zjzWx.controller;
 
 import cn.dev33.satoken.stp.StpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.zjzWx.dao.WebSetDao;
 import org.zjzWx.entity.WebSet;
 import org.zjzWx.model.dto.CreatePhotoDto;
 import org.zjzWx.model.vo.PicVo;
 import org.zjzWx.service.ApiService;
 import org.zjzWx.util.R;
+
 
 @RestController
 @RequestMapping("/api")
@@ -70,6 +68,9 @@ public class ApiController {
         }
         return R.ok(picVo);
     }
+
+
+
 
 
 }

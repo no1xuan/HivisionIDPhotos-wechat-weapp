@@ -78,7 +78,7 @@ sa-token:
 
 
 
-#图片存储
+#系统配置
 webset:
   #图片路径
   directory: /www/wwwroot/zjzpic/pic
@@ -90,4 +90,20 @@ webset:
   zjzDomain: http://127.0.0.1:8080/
   #黑白图片上色APi地址
   colourizeDomain: http://127.0.0.1/
-  envVersion: release #二维码-正式版为 "release"，体验版为 "trial"，开发版为 "develop"
+  #二维码：正式版为：release，体验版为：trial，开发版为：develop
+  envVersion: release
+
+
+#模型配置
+modelset:
+
+  #重要的事情说3遍！！！
+  #两者不同搭配的效果和速度都不一样，如果你不知道这是干嘛的，请不要动
+  #两者不同搭配的效果和速度都不一样，如果你不知道这是干嘛的，请不要动
+  #两者不同搭配的效果和速度都不一样，如果你不知道这是干嘛的，请不要动
+
+
+  #人像分割模型 - 可选值：modnet_photographic_portrait_matting | hivision_modnet | rmbg-1.4 | birefnet-v1-lite
+  humanMattingModel: hivision_modnet
+  #人脸检测模型 - 可选值：mtcnn | retinaface-resnet50
+  faceDetectModel: mtcnn
