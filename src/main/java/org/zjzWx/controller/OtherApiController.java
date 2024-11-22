@@ -4,6 +4,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.zjzWx.model.dto.ColourizeDto;
+import org.zjzWx.model.dto.ExploreDto;
 import org.zjzWx.service.OtherApiService;
 import org.zjzWx.util.R;
 
@@ -22,8 +23,9 @@ public class OtherApiController {
 
 
     @PostMapping("/colourize")
-    public R colourize(@RequestBody ColourizeDto colourizeDto) {
-        String colourize = otherApiService.colourize(Integer.parseInt(StpUtil.getTokenInfo().getLoginId().toString()), colourizeDto.getProcessedImage());
+    public R colourize(@RequestBody ExploreDto exploreDto) {
+        exploreDto.setUserId(Integer.parseInt(StpUtil.getTokenInfo().getLoginId().toString()));
+        String colourize = otherApiService.colourize(exploreDto);
         if(null==colourize){
             return R.no("图片上色失败，请重试");
         }
@@ -31,12 +33,24 @@ public class OtherApiController {
     }
 
     @PostMapping("/matting")
-    public R matting(@RequestBody ColourizeDto colourizeDto) {
-        String colourize = otherApiService.matting(Integer.parseInt(StpUtil.getTokenInfo().getLoginId().toString()),colourizeDto.getProcessedImage(),300);
-        if(null==colourize){
+    public R matting(@RequestBody ExploreDto exploreDto) {
+        exploreDto.setUserId(Integer.parseInt(StpUtil.getTokenInfo().getLoginId().toString()));
+        String matting = otherApiService.matting(exploreDto);
+        if(null==matting){
             return R.no("图片抠图失败，请重试");
         }
-        return R.ok(colourize);
+        return R.ok(matting);
+    }
+
+
+    @PostMapping("/generateLayoutPhotos")
+    public R generateLayoutPhotos(@RequestBody ExploreDto exploreDto) {
+        exploreDto.setUserId(Integer.parseInt(StpUtil.getTokenInfo().getLoginId().toString()));
+        String generateLayoutPhotos = otherApiService.generateLayoutPhotos(exploreDto);
+        if(null==generateLayoutPhotos){
+            return R.no("图片制作失败，请重试");
+        }
+        return R.ok(generateLayoutPhotos);
     }
 
 }

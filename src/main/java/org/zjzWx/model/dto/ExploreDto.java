@@ -8,10 +8,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ExploreDto {
-    //证件照数量
-    private long zjzCount;
-    //老照片数量
-    private long colourizeCount;
-    //抠图数量
-    private long mattingCount;
+    private Integer userId;
+    //图片分辨率，抠图/六寸排版用到
+    private Integer dpi;
+    //图片大小，六寸排版用到
+    private Integer kb;
+    //base64后的图片
+    private String processedImage;
+    //六寸排版高度
+    private Integer height;
+    //六寸排版宽度
+    private Integer width;
 }

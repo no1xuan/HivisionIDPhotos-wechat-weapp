@@ -14,6 +14,6 @@ public class HivisionDto {
     private String imageBase64Standard;
     //高清抠图透明图片
     private String imageBase64Hd;
-    //切换颜色后的上色图片 或 探索功能里面的抠图结果图
+    //切换颜色后的上色图片 或 探索功能里面的抠图/排版照结果图
     private String imageBase64;
 }

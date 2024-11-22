@@ -1,11 +1,7 @@
 package org.zjzWx.service;
 
 import org.zjzWx.model.dto.CreatePhotoDto;
-import org.zjzWx.model.dto.ExploreDto;
 import org.zjzWx.model.vo.PicVo;
-import org.zjzWx.util.R;
-
-import java.util.Map;
 
 //证件照相关API
 public interface ApiService {

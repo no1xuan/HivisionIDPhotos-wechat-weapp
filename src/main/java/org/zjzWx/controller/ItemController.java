@@ -30,8 +30,9 @@ public class ItemController {
     //保存用户自定义
     @PostMapping("/saveCustom")
     public R saveCustom(@RequestBody Custom custom){
+        custom.setId(null);
         custom.setUserId(Integer.parseInt(StpUtil.getTokenInfo().getLoginId().toString()));
-        //拿mm尺寸zx
+        //拿出WidthMmh和HeightMm
         String[] split = custom.getSize().split("\\*");
         String widthStr = split[0].trim();
         String heightStr = split[1].replace(" mm", "").trim();
@@ -41,7 +42,7 @@ public class ItemController {
         custom.setHeightMm(Integer.parseInt(heightStr));
         custom.setCreateTime(new Date());
         customService.save(custom);
-        return R.ok(null);
+        return R.ok(custom);
     }
 
     //证件列表

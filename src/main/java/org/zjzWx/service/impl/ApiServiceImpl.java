@@ -93,7 +93,7 @@ public class ApiServiceImpl implements ApiService {
             body.add("dpi",createPhotoDto.getDpi());
             body.add("human_matting_model",humanMattingModel);
             body.add("face_detect_model",faceDetectModel);
-            body.add("hd",false);  //减少时间，不生成高清
+            body.add("hd",false);  //减少时间，初始化时不生成高清
             body.add("face_alignment",true);  //人脸对齐
 
             HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);

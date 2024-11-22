@@ -14,7 +14,7 @@ spring:
     host: 127.0.0.1
     # Redis服务器连接端口
     port: 6379
-    # Redis服务器连接密码（默认为空）
+    # Redis服务器连接密码
     password: 123456
     # 连接超时时间
     timeout: 10s
@@ -34,7 +34,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/zjzwx?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
-    username: 123456
+    username: zjzwx
     #如果你的密码是纯数字，需要用字符串包起来，只有纯数字需要这样
     password: "123456"
 
@@ -49,7 +49,7 @@ mybatis-plus:
 
 
 
-############## Sa-Token 配置 (文档: https://sa-token.cc) ##############
+############## Sa-Token 配置 (此处无需动任何东西) ##############
 sa-token:
   # token 名称（同时也是 cookie 名称）
   token-name: token
@@ -88,6 +88,8 @@ webset:
   safetyDomain: http://127.0.0.1:3006/
   #证件照APi地址
   zjzDomain: http://127.0.0.1:8080/
+  #智能抠图API地址
+  mattingDomain: http://127.0.0.1:8080/
   #黑白图片上色APi地址
   colourizeDomain: http://127.0.0.1/
   #二维码：正式版为：release，体验版为：trial，开发版为：develop
@@ -102,8 +104,12 @@ modelset:
   #两者不同搭配的效果和速度都不一样，如果你不知道这是干嘛的，请不要动
   #两者不同搭配的效果和速度都不一样，如果你不知道这是干嘛的，请不要动
 
-
   #人像分割模型 - 可选值：modnet_photographic_portrait_matting | hivision_modnet | rmbg-1.4 | birefnet-v1-lite
   humanMattingModel: hivision_modnet
   #人脸检测模型 - 可选值：mtcnn | retinaface-resnet50
   faceDetectModel: mtcnn
+  #智能抠图模型 - 可选值：modnet_photographic_portrait_matting | hivision_modnet | rmbg-1.4 | birefnet-v1-lite
+  mattingModel: birefnet-v1-lite
+  #智能抠图模型说明：
+  #birefnet-v1-lite的效果最好，也最慢，占用内存最大
+  #如果你自已部署了API但是服务器带不动，请更换官方的智能抠图API地址 或 更换智能抠图模型
