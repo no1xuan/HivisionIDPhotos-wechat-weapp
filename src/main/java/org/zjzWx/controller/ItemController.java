@@ -52,22 +52,14 @@ public class ItemController {
         if(type==4){
             userId = StpUtil.getTokenInfo().getLoginId().toString();
         }
-        List<Object> list = itemService.itemList(pageNum, pageSize, type,userId,name);
-        if(list==null || list.size()==0){
-            return R.no();
-        }
-        return R.ok(list);
+        return R.ok(itemService.itemList(pageNum, pageSize, type,userId,name));
     }
 
 
     //用户作品列表
     @GetMapping("/photoList")
     public R photoList(int pageNum, int pageSize){
-        List<Photo> photos = photoService.photoList(pageNum, pageSize, StpUtil.getTokenInfo().getLoginId().toString());
-        if(photos==null || photos.size()==0){
-            return R.no();
-        }
-        return R.ok(photos);
+        return R.ok(photoService.photoList(pageNum, pageSize, StpUtil.getTokenInfo().getLoginId().toString()));
     }
 
     //删除作品（下个版本更新物理删除）

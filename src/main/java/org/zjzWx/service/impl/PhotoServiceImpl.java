@@ -16,14 +16,13 @@ public class PhotoServiceImpl extends ServiceImpl<PhotoDao,Photo> implements Pho
 
 
     @Override
-    public List<Photo> photoList(int pageNum, int pageSize, String userId) {
+    public Page<Photo> photoList(int pageNum, int pageSize, String userId) {
         Page<Photo> page = new Page<>(pageNum, pageSize);
         QueryWrapper<Photo> qw = new QueryWrapper<>();
         qw.select("id","name","n_img","size","create_time");
         qw.eq("user_id",userId);
         qw.isNotNull("n_img");
         qw.orderByDesc("create_time");
-        Page<Photo> photoPage = baseMapper.selectPage(page, qw);
-        return photoPage.getRecords();
+        return baseMapper.selectPage(page, qw);
     }
 }

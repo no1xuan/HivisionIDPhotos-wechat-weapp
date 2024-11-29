@@ -240,11 +240,11 @@ public class OtherApiServiceImpl implements OtherApiService {
             //base64转MultipartFile，进行保存文件并返回url
             MultipartFile file = PicUtil.base64ToMultipartFile(hivisionDto.getImageBase64());
             String originalFilename = file.getOriginalFilename();
-            String filename = PicUtil.filesCopy("matting", directory, originalFilename, file);
+            String filename = PicUtil.filesCopy("generateLayoutPhotos", directory, originalFilename, file);
 
 
 
-            String imagePath = picDomain + "matting" + "/" + filename;
+            String imagePath = picDomain + "generateLayoutPhotos" + "/" + filename;
             Photo photo = new Photo();
             photo.setUserId(exploreDto.getUserId());
             photo.setName("六寸排版照");

@@ -21,7 +21,7 @@ public class ItemServiceImpl extends ServiceImpl<ItemDao,Item> implements ItemSe
     private CustomService customService;
 
     @Override
-    public <T> List<T> itemList(int pageNum, int pageSize, int type, String userId,String name) {
+    public <T> Page<T> itemList(int pageNum, int pageSize, int type, String userId,String name) {
 
         //定制列表
         if(type==4){
@@ -29,8 +29,7 @@ public class ItemServiceImpl extends ServiceImpl<ItemDao,Item> implements ItemSe
             QueryWrapper<Custom> qw = new QueryWrapper<>();
             qw.eq("user_id",userId);
             qw.orderByDesc("create_time");
-            Page<Custom> page2 = customService.page(page, qw);
-            return (List<T>) page2.getRecords();
+            return (Page<T>) customService.page(page, qw);
         }
 
 
@@ -42,8 +41,7 @@ public class ItemServiceImpl extends ServiceImpl<ItemDao,Item> implements ItemSe
         }else {
             qw.eq("category",type);
         }
-        Page<Item> page2 = baseMapper.selectPage(page, qw);
-        return (List<T>) page2.getRecords();
+        return (Page<T>) baseMapper.selectPage(page, qw);
 
 
 

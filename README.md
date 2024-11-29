@@ -13,9 +13,10 @@
 
 **相关项目**：
 
-- 小程序前端请前往：https://github.com/no1xuan/photo
-- 小程序前端另外一套请前往：https://github.com/no1xuan/ai-photo
-- 小程序管理员网页后台请前往：https://github.com/no1xuan/zjzAdmin
+- 小程序前端第一套：https://github.com/no1xuan/photo
+- 小程序前端第二套：https://github.com/no1xuan/ai-photo
+- 小程序前端第三套：https://github.com/no1xuan/id-photo-wechat
+- 小程序管理员网页后台：https://github.com/no1xuan/zjzAdmin
 - HivisionIDPhotos（证件照API）：https://github.com/Zeyi-Lin/HivisionIDPhotos
 
 <hr>
@@ -34,7 +35,8 @@ uniapp多端兼容版：https://github.com/wmlcjj/AI-IDPhoto
 # ⭐最近更新
     版本更新教程：https://www.bilibili.com/video/BV1xNUvYTEjo
 
-- 2024.11.22：增加六寸排版照和自定义抠图模型，修正某处变量名不规范，以后如果有更新计划将会在周五/六/日的某一天进行更新
+- 2024.11.29：优化加快itemList和photoList接口，修正六寸排版照存储库名不规范，以后如果有更新计划将会在周五/六/日的某一天进行更新
+- 2024.11.22：增加六寸排版照和自定义抠图模型，修正某处变量名不规范
 - 2024.11.15：大更新来喽！增加通用抠图，自定义分割和检测模型
 - 2024.11.08：增加黑白图片上色功能
 - 2024.11.06：让1.sql文件同时支持Mysql5.7和8.0的版本，免去手动修改的麻烦
