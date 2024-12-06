@@ -18,4 +18,6 @@ public interface OtherApiService {
     //生成六寸排版照
     String generateLayoutPhotos(ExploreDto exploreDto);
 
+    //生成动漫风滤镜（新海诚画风）
+    String cartoon(ExploreDto exploreDto);
 }

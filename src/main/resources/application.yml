@@ -35,7 +35,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/zjzwx?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
     username: zjzwx
-    #如果你的密码是纯数字，需要用字符串包起来，只有纯数字需要这样
+    #如果你的密码是纯数字，需要用""包起来，不是纯数字不用
     password: "123456"
 
 mybatis-plus:
@@ -90,8 +90,10 @@ webset:
   zjzDomain: http://127.0.0.1:8080/
   #智能抠图API地址
   mattingDomain: http://127.0.0.1:8080/
-  #黑白图片上色APi地址
+  #黑白图片上色API地址
   colourizeDomain: http://127.0.0.1/
+  #动漫风图片API地址
+  cartoonDomain: http://127.0.0.1/
   #二维码：正式版为：release，体验版为：trial，开发版为：develop
   envVersion: release
 

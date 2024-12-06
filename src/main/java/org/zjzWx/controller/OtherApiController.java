@@ -53,4 +53,14 @@ public class OtherApiController {
         return R.ok(generateLayoutPhotos);
     }
 
+    @PostMapping("/cartoon")
+    public R cartoon(@RequestBody ExploreDto exploreDto) {
+        exploreDto.setUserId(Integer.parseInt(StpUtil.getTokenInfo().getLoginId().toString()));
+        String cartoon = otherApiService.cartoon(exploreDto);
+        if(null==cartoon){
+            return R.no("图片制作失败，请重试");
+        }
+        return R.ok(cartoon);
+    }
+
 }

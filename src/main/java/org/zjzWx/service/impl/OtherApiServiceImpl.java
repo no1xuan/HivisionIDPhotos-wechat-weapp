@@ -13,16 +13,15 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.zjzWx.entity.Photo;
 import org.zjzWx.entity.PhotoRecord;
-import org.zjzWx.model.dto.ColourizeDto;
-import org.zjzWx.model.dto.ExploreDto;
-import org.zjzWx.model.dto.ExploreIndexDto;
-import org.zjzWx.model.dto.HivisionDto;
+import org.zjzWx.model.dto.*;
 import org.zjzWx.service.OtherApiService;
 import org.zjzWx.service.PhotoRecordService;
 import org.zjzWx.service.PhotoService;
 import org.zjzWx.util.PicUtil;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Service
@@ -42,6 +41,9 @@ public class OtherApiServiceImpl implements OtherApiService {
 
     @Value("${modelset.mattingModel}")
     private String mattingModel;
+
+    @Value("${webset.cartoonDomain}")
+    private String cartoonDomain;
 
     @Autowired
     private PhotoService photoService;
@@ -70,6 +72,10 @@ public class OtherApiServiceImpl implements OtherApiService {
         QueryWrapper<PhotoRecord> qw4  = new QueryWrapper<>();
         qw4.eq("name", "生成图片抠图");
         exploreIndexDto.setMattingCount(photoRecordService.count(qw4));
+
+        QueryWrapper<PhotoRecord> qw5  = new QueryWrapper<>();
+        qw5.eq("name", "生成动漫风照");
+        exploreIndexDto.setCartoonCount(photoRecordService.count(qw5));
 
 
         return exploreIndexDto;
@@ -268,6 +274,63 @@ public class OtherApiServiceImpl implements OtherApiService {
         }
 
     }
+
+    @Override
+    public String cartoon(ExploreDto exploreDto) {
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+
+            // 构建 multipart 数据
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+            MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+            body.add("image", exploreDto.getProcessedImage()); // Base64 图像数据
+
+            HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+
+            ResponseEntity<String> response = restTemplate.exchange(
+                    cartoonDomain + "/cartoon",
+                    HttpMethod.POST,
+                    requestEntity,
+                    String.class);
+
+
+            CartoonDto cartoonDto = JSON.parseObject(response.getBody(), CartoonDto.class);
+            if (cartoonDto == null || cartoonDto.getError() != null) {
+                return null;
+            }
+
+            //base64转MultipartFile，进行保存文件并返回url
+            MultipartFile file = PicUtil.base64ToMultipartFile(cartoonDto.getCartoonImage());
+            String originalFilename = file.getOriginalFilename();
+            String filename = PicUtil.filesCopy("cartoon", directory, originalFilename, file);
+
+            String imagePath = picDomain + "cartoon" + "/" + filename;
+
+            Photo photo = new Photo();
+            photo.setUserId(exploreDto.getUserId());
+            photo.setName("动漫风照");
+            photo.setNImg(imagePath);
+            photo.setSize("无规格");
+            photo.setCreateTime(new Date());
+            photoService.save(photo);
+
+
+            //保存用户行为记录
+            PhotoRecord record = new PhotoRecord();
+            record.setName("生成动漫风照");
+            record.setUserId(exploreDto.getUserId());
+            record.setCreateTime(new Date());
+            photoRecordService.save(record);
+
+            return imagePath;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
 
 }

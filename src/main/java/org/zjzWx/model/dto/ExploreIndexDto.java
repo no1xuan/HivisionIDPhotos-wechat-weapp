@@ -16,4 +16,5 @@ public class ExploreIndexDto {
     private long colourizeCount;
     //抠图数量
     private long mattingCount;
+    private long cartoonCount;
 }
