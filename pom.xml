@@ -85,7 +85,6 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>2.7.2</version>
                 <configuration>
-                    <!--  指定该Main Class为全局的唯一入口 -->
                     <mainClass>org.zjzWx.App</mainClass>
                     <outputDirectory>D:/jar2</outputDirectory>
                     <layout>ZIP</layout>
@@ -93,7 +92,7 @@
                 <executions>
                     <execution>
                         <goals>
-                            <goal>repackage</goal><!--可以把依赖的包都打包到生成的Jar包中-->
+                            <goal>repackage</goal>
                         </goals>
                     </execution>
                 </executions>
