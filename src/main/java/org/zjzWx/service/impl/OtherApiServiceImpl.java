@@ -282,19 +282,16 @@ public class OtherApiServiceImpl implements OtherApiService {
 
             // 构建 multipart 数据
             HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+            headers.setContentType(MediaType.APPLICATION_JSON);
 
-            MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-            body.add("image", exploreDto.getProcessedImage()); // Base64 图像数据
-
-            HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+            HttpEntity<String> requestEntity = new HttpEntity<>("{\"image\": \"" + exploreDto.getProcessedImage() + "\"}", headers);
 
             ResponseEntity<String> response = restTemplate.exchange(
                     cartoonDomain + "/cartoon",
                     HttpMethod.POST,
                     requestEntity,
-                    String.class);
-
+                    String.class
+            );
 
             CartoonDto cartoonDto = JSON.parseObject(response.getBody(), CartoonDto.class);
             if (cartoonDto == null || cartoonDto.getError() != null) {
@@ -307,6 +304,7 @@ public class OtherApiServiceImpl implements OtherApiService {
             String filename = PicUtil.filesCopy("cartoon", directory, originalFilename, file);
 
             String imagePath = picDomain + "cartoon" + "/" + filename;
+
 
             Photo photo = new Photo();
             photo.setUserId(exploreDto.getUserId());
