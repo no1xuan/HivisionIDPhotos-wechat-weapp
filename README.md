@@ -35,6 +35,7 @@ uniapp多端兼容版：https://github.com/wmlcjj/AI-IDPhoto
 # ⭐最近更新
     版本更新教程：https://www.bilibili.com/video/BV1xNUvYTEjo
 
+- 2024.12.13：由于在适配最新HivisionIDPhotos出现【"detail": "Part exceeded maximum size of 1024KB."】的错误，目前没有找到解决办法，所以本次准备的大更新将无限延期
 - 2024.12.11：紧急修复图片动漫风功能图片太大导致无法生成的问题，以后如果有更新计划将会在周五/六/日的某一天进行更新
 - 2024.12.06：增加图片动漫风功能
 - 2024.11.29：优化加快itemList和photoList接口，修正六寸排版照存储库名不规范
