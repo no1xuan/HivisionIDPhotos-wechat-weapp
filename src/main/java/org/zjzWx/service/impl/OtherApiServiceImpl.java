@@ -60,7 +60,7 @@ public class OtherApiServiceImpl implements OtherApiService {
 
             if(appSet.getType()==3){
                 QueryWrapper<PhotoRecord> qw1  = new QueryWrapper<>();
-                qw1.in("type",0,1,2,3,4,11);
+                qw1.in("type",1,2,3,4,10);
                 exploreIndexDto.setZjzCount(photoRecordService.count(qw1));
             }
 

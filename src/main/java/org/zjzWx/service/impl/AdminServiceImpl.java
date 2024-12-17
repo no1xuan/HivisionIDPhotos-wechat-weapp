@@ -203,9 +203,13 @@ public class AdminServiceImpl extends ServiceImpl<AdminDao, Admin> implements Ad
         // 统计当天的照片制作次数
         QueryWrapper<PhotoRecord> qw1 = new QueryWrapper<>();
         qw1.ge("create_time", startOfDay)
-                .le("create_time", endOfDay);
+                .le("create_time", endOfDay)
+                .ne("type",0);
         adminIndexVo.setMakeNum(photoRecordService.count(qw1));
-        adminIndexVo.setMakeTotal(photoRecordService.count());
+
+        QueryWrapper<PhotoRecord> qw11 = new QueryWrapper<>();
+        qw11.ne("type",0);
+        adminIndexVo.setMakeTotal(photoRecordService.count(qw11));
 
         // 统计当天的用户数量
         QueryWrapper<User> qw2 = new QueryWrapper<>();
@@ -235,6 +239,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminDao, Admin> implements Ad
                         .ge("create_time", startDate.atStartOfDay())  // 从最近7天的起始日期
                         .le("create_time", endOfDay)  // 改为当前时间
                         .groupBy("DATE(create_time)")
+                        .ne("type",0)
         );
 
         // 将查询结果转换为日期-数量的映射
