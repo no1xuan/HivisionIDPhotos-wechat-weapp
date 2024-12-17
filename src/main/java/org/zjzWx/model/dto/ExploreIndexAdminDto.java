@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExploreIndexDto {
+public class ExploreIndexAdminDto {
     //证件照数量
     private long zjzCount;
     //六寸排版照数量
@@ -20,4 +20,8 @@ public class ExploreIndexDto {
     private long cartoonCount;
     //清晰度数量
     private long imageDefinitionEnhanceCount;
+    //上传图片数量
+    private long imageuploadCount;
+    //总计
+    private long imageCount;
 }

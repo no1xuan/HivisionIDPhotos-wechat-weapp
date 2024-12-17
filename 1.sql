@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2024-11-06 10:41:02
+-- 生成日期： 2024-12-17 10:01:30
 -- 服务器版本： 8.0.35
 -- PHP 版本： 8.0.26
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- 数据库： `zjzwx2`
+-- 数据库： `zjzwx3`
 --
 
 -- --------------------------------------------------------
@@ -32,6 +32,34 @@ CREATE TABLE `admin` (
   `status` int NOT NULL DEFAULT '0' COMMENT '0等待登录，1登录成功',
   `code` bigint DEFAULT NULL COMMENT '识别码'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `app_set`
+--
+
+CREATE TABLE `app_set` (
+  `id` int NOT NULL COMMENT '探索中心设置表',
+  `type` int DEFAULT NULL COMMENT '类型：1鉴黄，2美颜，3智能证件照，4六寸排版照，5老照片上色，6智能抠图，7照片清晰增强，8新海诚动漫风',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '名字',
+  `status` int DEFAULT '1' COMMENT '0关闭，1开启，2次数限制（status==2时type=1和2没用 | type==3时 0代表关闭下载高清证件照广告，1代表开启广告下载高清证件照广告，2没用）',
+  `counts` int DEFAULT '0' COMMENT '用户每天免费次数（type=1，2，3没用）'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- 转存表中的数据 `app_set`
+--
+
+INSERT INTO `app_set` (`id`, `type`, `name`, `status`, `counts`) VALUES
+(1, 3, '智能证件照', 1, 0),
+(2, 4, '六寸排版照', 1, 0),
+(3, 5, '老照片上色', 1, 0),
+(4, 6, '智能抠图', 1, 0),
+(5, 7, '照片清晰增强', 1, 0),
+(6, 8, '新海诚动漫风', 1, 0),
+(7, 1, '鉴黄', 0, 0),
+(8, 2, '美颜', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -66,8 +94,8 @@ CREATE TABLE `item` (
   `width_mm` int NOT NULL DEFAULT '0' COMMENT '尺寸-宽',
   `height_mm` int NOT NULL DEFAULT '0' COMMENT '尺寸-高',
   `icon` int DEFAULT '1' COMMENT '图标',
-  `sort` tinyint DEFAULT '100' COMMENT '排序',
-  `category` tinyint(1) DEFAULT '0' COMMENT '1=常用寸照，2=各类签证，3=各类证件',
+  `sort` int DEFAULT '100' COMMENT '排序',
+  `category` int DEFAULT '0' COMMENT '1=常用寸照，2=各类签证，3=各类证件',
   `dpi` int DEFAULT '0' COMMENT '分辨率'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='证件照表' ROW_FORMAT=COMPACT;
 
@@ -860,6 +888,7 @@ CREATE TABLE `photo` (
 
 CREATE TABLE `photo_record` (
   `id` int NOT NULL COMMENT '用户行为记录',
+  `type` int DEFAULT '0' COMMENT '类型：0旧数据，1生成证件照，2生成高清证件照，3换背景，4下载证件照，5老照片上色，6智能抠图，7六寸排版照，8动漫风照，9照片清晰增强，10上传图片',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '名字',
   `user_id` int DEFAULT NULL COMMENT '用户id',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间'
@@ -876,8 +905,30 @@ CREATE TABLE `user` (
   `openid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'openid',
   `nickname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用户名字',
   `avatar_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用户头像',
+  `status` int DEFAULT '1' COMMENT '1正常，2禁止登录',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `web_glow`
+--
+
+CREATE TABLE `web_glow` (
+  `id` int NOT NULL COMMENT '美颜参数配置表',
+  `brightness_strength` int DEFAULT '1' COMMENT '亮度调整强度,最大25',
+  `contrast_strength` int DEFAULT '1' COMMENT '对比度调整强度，最大50',
+  `sharpen_strength` int DEFAULT '1' COMMENT '锐化调整强度，最大50',
+  `saturation_strength` int DEFAULT '1' COMMENT '饱和度调整强度，最大5'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- 转存表中的数据 `web_glow`
+--
+
+INSERT INTO `web_glow` (`id`, `brightness_strength`, `contrast_strength`, `sharpen_strength`, `saturation_strength`) VALUES
+(1, 1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -886,21 +937,18 @@ CREATE TABLE `user` (
 --
 
 CREATE TABLE `web_set` (
-  `id` int NOT NULL COMMENT '应用设置表',
+  `id` int NOT NULL COMMENT '系统设置表',
   `app_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '小程序appid',
   `app_secret` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '小程序AppSecret',
-  `download_one` int DEFAULT '1' COMMENT '保存预览照：1免费下载，2看广告下载',
-  `download_two` int DEFAULT '1' COMMENT '保存AI高清照：1免费下载，2看广告下载',
-  `safety_api` int DEFAULT '1' COMMENT '是否开启鉴黄：1关闭，2开启',
-  `video_unit_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '广告位id'
+  `video_unit_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '广告位id'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- 转存表中的数据 `web_set`
 --
 
-INSERT INTO `web_set` (`id`, `app_id`, `app_secret`, `download_one`, `download_two`, `safety_api`, `video_unit_id`) VALUES
-(1, '0', '0', 1, 1, 1, '0');
+INSERT INTO `web_set` (`id`, `app_id`, `app_secret`, `video_unit_id`) VALUES
+(1, '0', '0', '0');
 
 --
 -- 转储表的索引
@@ -910,6 +958,12 @@ INSERT INTO `web_set` (`id`, `app_id`, `app_secret`, `download_one`, `download_t
 -- 表的索引 `admin`
 --
 ALTER TABLE `admin`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- 表的索引 `app_set`
+--
+ALTER TABLE `app_set`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -943,6 +997,12 @@ ALTER TABLE `user`
   ADD PRIMARY KEY (`id`);
 
 --
+-- 表的索引 `web_glow`
+--
+ALTER TABLE `web_glow`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- 表的索引 `web_set`
 --
 ALTER TABLE `web_set`
@@ -957,6 +1017,12 @@ ALTER TABLE `web_set`
 --
 ALTER TABLE `admin`
   MODIFY `id` int NOT NULL AUTO_INCREMENT COMMENT '管理员登录识别码表';
+
+--
+-- 使用表AUTO_INCREMENT `app_set`
+--
+ALTER TABLE `app_set`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT COMMENT '探索中心设置表', AUTO_INCREMENT=9;
 
 --
 -- 使用表AUTO_INCREMENT `custom`
@@ -989,10 +1055,16 @@ ALTER TABLE `user`
   MODIFY `id` int NOT NULL AUTO_INCREMENT COMMENT '用户表id';
 
 --
+-- 使用表AUTO_INCREMENT `web_glow`
+--
+ALTER TABLE `web_glow`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT COMMENT '美颜参数配置表', AUTO_INCREMENT=2;
+
+--
 -- 使用表AUTO_INCREMENT `web_set`
 --
 ALTER TABLE `web_set`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT COMMENT '应用设置表', AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT COMMENT '系统设置表', AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

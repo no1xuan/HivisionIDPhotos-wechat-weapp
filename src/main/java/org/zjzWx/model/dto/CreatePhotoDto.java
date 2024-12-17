@@ -23,6 +23,8 @@ public class CreatePhotoDto {
     private Integer render;
     //图片kb
     private Integer kb;
+    //美颜开关
+    private Integer isBeautyOn;
 
     private Integer userId;
     private Integer type;

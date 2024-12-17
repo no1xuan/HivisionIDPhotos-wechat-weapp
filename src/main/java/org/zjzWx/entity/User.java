@@ -31,6 +31,10 @@ public class User {
      * 用户头像
      */
     private String avatarUrl;
+    /**
+     * 1正常，2禁止登录
+     */
+    private Integer status;
 
 /**
      * 创建时间

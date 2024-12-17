@@ -7,8 +7,13 @@ import org.zjzWx.dao.WebSetDao;
 import org.zjzWx.entity.WebSet;
 import org.zjzWx.model.dto.CreatePhotoDto;
 import org.zjzWx.model.vo.PicVo;
+import org.zjzWx.model.vo.VideoUnitVo;
 import org.zjzWx.service.ApiService;
+import org.zjzWx.service.AppSetService;
+import org.zjzWx.service.WebSetService;
 import org.zjzWx.util.R;
+
+import javax.jws.WebService;
 
 
 @RestController
@@ -19,12 +24,14 @@ public class ApiController {
     @Autowired
     private ApiService apiService;
     @Autowired
-    private WebSetDao webSetDao;
+    private WebSetService webSetService;
+    @Autowired
+    private AppSetService appSetService;
 
 
-    @PostMapping("/getWeb")
-    public WebSet getWeb(){
-        return webSetDao.getWeb();
+    @PostMapping("/getvideoUnit")
+    public R getvideoUnit(){
+        return R.ok(webSetService.getvideoUnit());
     }
 
     @PostMapping("/createIdPhoto")
@@ -67,6 +74,13 @@ public class ApiController {
             return R.no(picVo.getMsg());
         }
         return R.ok(picVo);
+    }
+
+
+
+    @PostMapping("/getWebGlow")
+    public R getWebGlow(){
+        return R.ok(appSetService.getWebGlow());
     }
 
 

@@ -65,8 +65,13 @@ public class UserServiceImpl extends ServiceImpl<UserDao,User> implements UserSe
             QueryWrapper<User> qw = new QueryWrapper<>();
             qw.eq("openid",openid);
             User user = baseMapper.selectOne(qw);
+            if(null!=user && user.getStatus()==2){
+                wxlogin.setMsg("您已申请注销，无法登录，可联系客服恢复");
+                return wxlogin;
+            }
+
             if(null==user){
-                user = new User(null,openid,null,null,new Date());
+                user = new User(null,openid,null,null,1,new Date());
                 baseMapper.insert(user);
             }
             StpUtil.login(user.getId());
@@ -101,6 +106,8 @@ public class UserServiceImpl extends ServiceImpl<UserDao,User> implements UserSe
         }
         return null;
     }
+
+
 
 
     //上传用户头像

@@ -1,6 +1,7 @@
 package org.zjzWx.file;
 
 import cn.dev33.satoken.stp.StpUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
@@ -8,8 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.zjzWx.entity.AppSet;
 import org.zjzWx.entity.PhotoRecord;
 import org.zjzWx.entity.WebSet;
+import org.zjzWx.service.AppSetService;
 import org.zjzWx.service.PhotoRecordService;
 import org.zjzWx.service.UploadService;
 import org.zjzWx.service.WebSetService;
@@ -32,11 +35,11 @@ public class ImageUpload {
     @Autowired
     private UploadService uploadService;
     @Autowired
-    private WebSetService webSetService;
-    @Autowired
     private PhotoRecordService photoRecordService;
+    @Autowired
+    private AppSetService appSetService;
 
-    //图片鉴黄，通过返回base64
+    //前端所有图片上传都会经过这个接口检查，如通过返回base64，不通过返回错误信息
     @PostMapping("/upload")
     public R uploadImage(@RequestParam("file") MultipartFile file) {
         if (file.isEmpty()) {
@@ -56,9 +59,11 @@ public class ImageUpload {
             return R.no("图片大小不能超过15M");
         }
 
-        WebSet webSet = webSetService.getById(1);
+        QueryWrapper<AppSet> qwapp = new QueryWrapper<>();
+        qwapp.eq("type",1);
+        AppSet appSet = appSetService.getOne(qwapp);
         //如果开启鉴黄
-        if(webSet.getSafetyApi()==2){
+        if(appSet.getStatus()==1){
             String s = uploadService.checkNsfw(file);
             if(s!=null){
                 return R.no(s);
@@ -66,6 +71,7 @@ public class ImageUpload {
         }
 
         PhotoRecord photoRecord = new PhotoRecord();
+        photoRecord.setType(10);
         photoRecord.setName("上传图片");
         photoRecord.setUserId(Integer.parseInt(StpUtil.getTokenInfo().getLoginId().toString()));
         photoRecord.setCreateTime(new Date());

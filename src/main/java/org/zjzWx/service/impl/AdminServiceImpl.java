@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.zjzWx.dao.AdminDao;
 import org.zjzWx.entity.*;
+import org.zjzWx.model.dto.ExploreIndexAdminDto;
+import org.zjzWx.model.dto.ExploreIndexDto;
 import org.zjzWx.model.vo.AdminIndexVo;
 import org.zjzWx.model.vo.AdminLoginVo;
 import org.zjzWx.model.vo.ChartDataVo;
@@ -49,7 +51,10 @@ public class AdminServiceImpl extends ServiceImpl<AdminDao, Admin> implements Ad
     private CustomService customService;
     @Autowired
     private PhotoService photoService;
-
+    @Autowired
+    private WebGlowService webGlowService;
+    @Autowired
+    private AppSetService appSetService;
 
 
     @Override
@@ -143,10 +148,10 @@ public class AdminServiceImpl extends ServiceImpl<AdminDao, Admin> implements Ad
             qw.eq("code",code2);
             Admin admin = baseMapper.selectOne(qw);
             if(null==admin){
-                return null;
+                return "登录请求已失效，请重新刷新二维码";
             }
             if(admin.getStatus()==1){
-                return null;
+                return "已登录，无需重复登录";
             }
 
             WebSet webSet = webSetService.getById(1);
@@ -161,22 +166,23 @@ public class AdminServiceImpl extends ServiceImpl<AdminDao, Admin> implements Ad
             JSONObject jsonopenid = JSONObject.parseObject(content);
             String openid = jsonopenid.getString("openid");
             if(null==openid){  //高风险的微信用户/数据库配置错误/安全域名没有添加会存在openid没有的情况
-                return null;
+                return "与微信通讯失败";
             }
 
             QueryWrapper<User> qwuser = new QueryWrapper<>();
             qwuser.eq("openid",openid);
             User user = userService.getOne(qwuser);
-            if(user.getId()==1){
+            if(null!=user && 1==user.getId()){
                 admin.setStatus(1);
                 baseMapper.updateById(admin);
-                return "1";
+                return null;
+            }else {
+                return "您不是管理员，无法登录";
             }
         } catch (Exception e) {
             e.printStackTrace();
+            return "代码报错";
         }
-
-        return null;
     }
 
 
@@ -322,6 +328,90 @@ public class AdminServiceImpl extends ServiceImpl<AdminDao, Admin> implements Ad
     public void updateWebSet(WebSet webSet) {
         webSet.setId(1);
         webSetService.updateById(webSet);
+    }
+
+    @Override
+    public WebGlow getWebGlow() {
+        return webGlowService.getById(1);
+    }
+
+    @Override
+    public void updateWebGlow(WebGlow webGlow) {
+        webGlow.setId(1);
+        webGlowService.updateById(webGlow);
+    }
+
+    @Override
+    public List<AppSet> getExploreSet() {
+        return appSetService.list();
+    }
+
+    @Override
+    public void updateExploreSet(AppSet appSet) {
+        appSetService.updateById(appSet);
+
+    }
+
+    @Override
+    public void updateUserStatus(Integer userId, Integer type) {
+        User user = new User();
+        user.setId(userId);
+        user.setStatus(type);
+        userService.updateById(user);
+    }
+
+    @Override
+    public ExploreIndexAdminDto exploreIndexAdmin() {
+        ExploreIndexAdminDto exploreIndexAdmin = new ExploreIndexAdminDto();
+        List<AppSet> list = appSetService.list();
+        for (AppSet appSet : list) {
+
+            if(appSet.getType()==3){
+                QueryWrapper<PhotoRecord> qw1  = new QueryWrapper<>();
+                qw1.in("type",1,2,3,4);
+                exploreIndexAdmin.setZjzCount(photoRecordService.count(qw1));
+            }
+
+            if(appSet.getType()==4){
+                QueryWrapper<PhotoRecord> qw2  = new QueryWrapper<>();
+                qw2.eq("type",7);
+                exploreIndexAdmin.setGenerateLayoutCount(photoRecordService.count(qw2));
+            }
+
+            if(appSet.getType()==5){
+                QueryWrapper<PhotoRecord> qw3  = new QueryWrapper<>();
+                qw3.eq("type",5);
+                exploreIndexAdmin.setColourizeCount(photoRecordService.count(qw3));
+            }
+
+            if(appSet.getType()==6){
+                QueryWrapper<PhotoRecord> qw4  = new QueryWrapper<>();
+                qw4.eq("type",6);
+                exploreIndexAdmin.setMattingCount(photoRecordService.count(qw4));
+            }
+            if(appSet.getType()==7){
+                QueryWrapper<PhotoRecord> qw5  = new QueryWrapper<>();
+                qw5.eq("type",9);
+                exploreIndexAdmin.setImageDefinitionEnhanceCount(photoRecordService.count(qw5));
+            }
+
+            if(appSet.getType()==8){
+                QueryWrapper<PhotoRecord> qw6  = new QueryWrapper<>();
+                qw6.eq("type",8);
+                exploreIndexAdmin.setCartoonCount(photoRecordService.count(qw6));
+            }
+
+        }
+        QueryWrapper<PhotoRecord> qw7  = new QueryWrapper<>();
+        qw7.eq("type",10);
+        exploreIndexAdmin.setImageuploadCount(photoRecordService.count(qw7));
+
+        QueryWrapper<PhotoRecord> qw8 = new QueryWrapper<>();
+        qw8.ne("type",0);
+        exploreIndexAdmin.setImageCount(photoRecordService.count(qw8));
+
+
+        return exploreIndexAdmin;
     }
 
 

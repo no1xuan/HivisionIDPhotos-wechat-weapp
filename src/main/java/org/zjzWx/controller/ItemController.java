@@ -32,14 +32,10 @@ public class ItemController {
     public R saveCustom(@RequestBody Custom custom){
         custom.setId(null);
         custom.setUserId(Integer.parseInt(StpUtil.getTokenInfo().getLoginId().toString()));
-        //拿出WidthMmh和HeightMm
-        String[] split = custom.getSize().split("\\*");
-        String widthStr = split[0].trim();
-        String heightStr = split[1].replace(" mm", "").trim();
         Random random = new Random();
         custom.setIcon(random.nextInt(6) + 1);
-        custom.setWidthMm(Integer.parseInt(widthStr));
-        custom.setHeightMm(Integer.parseInt(heightStr));
+        custom.setWidthMm(custom.getWidthMm());
+        custom.setHeightMm(custom.getHeightMm());
         custom.setCreateTime(new Date());
         customService.save(custom);
         return R.ok(custom);

@@ -3,7 +3,6 @@ package org.zjzWx.controller;
 import cn.dev33.satoken.stp.StpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.zjzWx.model.dto.ColourizeDto;
 import org.zjzWx.model.dto.ExploreDto;
 import org.zjzWx.service.OtherApiService;
 import org.zjzWx.util.R;
@@ -62,5 +61,13 @@ public class OtherApiController {
         }
         return R.ok(cartoon);
     }
+
+    @GetMapping("/checkTheFreeQuota")
+    public R checkTheFreeQuota(Integer type,Integer type2) {
+        long count = otherApiService.checkTheFreeQuota(type, type2, Integer.parseInt(StpUtil.getTokenInfo().getLoginId().toString()));
+        return R.ok(count);
+    }
+
+
 
 }

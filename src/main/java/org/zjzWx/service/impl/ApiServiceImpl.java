@@ -1,6 +1,7 @@
 package org.zjzWx.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -16,6 +17,7 @@ import org.zjzWx.model.dto.HivisionDto;
 import org.zjzWx.model.vo.PicVo;
 import org.zjzWx.service.*;
 import org.zjzWx.util.PicUtil;
+import org.zjzWx.util.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -44,6 +46,10 @@ public class ApiServiceImpl implements ApiService {
     private PhotoService photoService;
     @Autowired
     private PhotoRecordService photoRecordService;
+    @Autowired
+    private WebGlowService webGlowService;
+    @Autowired
+    private AppSetService appSetService;
 
 
 
@@ -87,7 +93,10 @@ public class ApiServiceImpl implements ApiService {
             headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
             MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-            body.add("input_image_base64", createPhotoDto.getImage());
+            MultipartFile multipartFile = PicUtil.base64ToMultipartFile(createPhotoDto.getImage());
+            body.add("input_image", new PicUtil.MultipartInputStreamFileResource(multipartFile));
+//            新版本HivisionIDPhotos的input_image_base64限制了1M，暂时停止使用base64传输
+//            body.add("input_image_base64", createPhotoDto.getImage());
             body.add("height",createPhotoDto.getHeight());
             body.add("width", createPhotoDto.getWidth());
             body.add("dpi",createPhotoDto.getDpi());
@@ -95,6 +104,17 @@ public class ApiServiceImpl implements ApiService {
             body.add("face_detect_model",faceDetectModel);
             body.add("hd",false);  //减少时间，初始化时不生成高清
             body.add("face_alignment",true);  //人脸对齐
+            if(createPhotoDto.getIsBeautyOn()==1){ //使用美颜
+                AppSet appSet = appSetService.getById(2);
+                if(appSet.getStatus()==1){  //管理员开启了美颜才能使用美颜，防止抓接口
+                    WebGlow webGlow = webGlowService.getById(1);
+                    body.add("brightness_strength",webGlow.getBrightnessStrength());
+                    body.add("contrast_strength",webGlow.getContrastStrength());
+                    body.add("sharpen_strength",webGlow.getSharpenStrength());
+                    body.add("saturation_strength",webGlow.getSaturationStrength());
+                }
+
+            }
 
             HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
@@ -125,6 +145,7 @@ public class ApiServiceImpl implements ApiService {
 
             //保存用户行为记录
             PhotoRecord record = new PhotoRecord();
+            record.setType(1);
             record.setName("生成证件照");
             record.setUserId(createPhotoDto.getUserId());
             record.setCreateTime(new Date());
@@ -183,13 +204,26 @@ public class ApiServiceImpl implements ApiService {
             headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
             MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-            body.add("input_image_base64", createPhotoDto.getImage());
+            MultipartFile multipartFile = PicUtil.base64ToMultipartFile(createPhotoDto.getImage());
+            body.add("input_image", new PicUtil.MultipartInputStreamFileResource(multipartFile));
+//            新版本HivisionIDPhotos的input_image_base64限制了1M，暂时停止使用base64传输
+//            body.add("input_image_base64", createPhotoDto.getImage());
             body.add("height",createPhotoDto.getHeight());
             body.add("width", createPhotoDto.getWidth());
             body.add("human_matting_model",humanMattingModel);
             body.add("face_detect_model",faceDetectModel);
             body.add("hd",true);
             body.add("face_alignment",true);  //人脸对齐
+            if(createPhotoDto.getIsBeautyOn()==1){ //使用美颜
+                AppSet appSet = appSetService.getById(2);
+                if(appSet.getStatus()==1){  //管理员开启了美颜才能使用美颜，防止抓接口
+                    WebGlow webGlow = webGlowService.getById(1);
+                    body.add("brightness_strength",webGlow.getBrightnessStrength());
+                    body.add("contrast_strength",webGlow.getContrastStrength());
+                    body.add("sharpen_strength",webGlow.getSharpenStrength());
+                    body.add("saturation_strength",webGlow.getSaturationStrength());
+                }
+            }
 
             HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
@@ -208,6 +242,7 @@ public class ApiServiceImpl implements ApiService {
 
             //保存用户行为记录
             PhotoRecord record = new PhotoRecord();
+            record.setType(2);
             record.setName("生成高清证件照");
             record.setUserId(createPhotoDto.getUserId());
             record.setCreateTime(new Date());
@@ -235,7 +270,10 @@ public class ApiServiceImpl implements ApiService {
             headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
             MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-            body.add("input_image_base64", createPhotoDto.getImage());
+            MultipartFile multipartFile = PicUtil.base64ToMultipartFile(createPhotoDto.getImage());
+            body.add("input_image", new PicUtil.MultipartInputStreamFileResource(multipartFile));
+//            新版本HivisionIDPhotos的input_image_base64限制了1M，暂时停止使用base64传输
+//            body.add("input_image_base64", createPhotoDto.getImage());
             body.add("render",createPhotoDto.getRender());
             body.add("color",createPhotoDto.getColors());
             //非高清下载时传输dpi
@@ -266,6 +304,7 @@ public class ApiServiceImpl implements ApiService {
 
             //保存用户行为记录
             PhotoRecord record = new PhotoRecord();
+            record.setType(3);
             record.setName("换背景");
             record.setUserId(createPhotoDto.getUserId());
             record.setCreateTime(new Date());
@@ -322,13 +361,15 @@ public class ApiServiceImpl implements ApiService {
 //        }
 
         //不开启鉴黄，因为测试生成后的图片存在误判
-//        WebSet webSet = webSetService.getById(1);
+        //如果你改造了项目，使用了阿里云，腾讯云等大厂的鉴黄API那么非常建议开启
+//        QueryWrapper<AppSet> qwapp = new QueryWrapper<>();
+//        qwapp.eq("type",1);
+//        AppSet appSet = appSetService.getOne(qwapp);
 //        //如果开启鉴黄
-//        if(webSet.getSafetyApi()==2){
+//        if(appSet.getStatus()==1){
 //            String s = uploadService.checkNsfw(file);
 //            if(s!=null){
-//                picVo.setMsg(s);
-//                return picVo;
+//                return R.no(s);
 //            }
 //        }
 
@@ -351,6 +392,7 @@ public class ApiServiceImpl implements ApiService {
 
         //保存用户行为记录
         PhotoRecord record = new PhotoRecord();
+        record.setType(4);
         record.setName("下载证件照");
         record.setUserId(userid);
         record.setCreateTime(new Date());

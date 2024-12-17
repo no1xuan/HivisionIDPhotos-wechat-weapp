@@ -1,17 +1,12 @@
 package org.zjzWx.controller;
 
 import cn.dev33.satoken.stp.StpUtil;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.zjzWx.entity.Photo;
-import org.zjzWx.entity.PhotoRecord;
-import org.zjzWx.entity.User;
-import org.zjzWx.entity.WebSet;
-import org.zjzWx.model.vo.AdminIndexVo;
+import org.zjzWx.entity.*;
+import org.zjzWx.model.dto.ExploreIndexAdminDto;
 import org.zjzWx.model.vo.AdminLoginVo;
 import org.zjzWx.service.AdminService;
-import org.zjzWx.util.PicUtil;
 import org.zjzWx.util.R;
 
 
@@ -52,11 +47,11 @@ public class AdminController {
     @GetMapping("/okLogin")
     public R okLogin(String code1,String code2) {
         if(null==code1 || code1.trim().isEmpty() || null==code2 || code2.trim().isEmpty()){
-            return R.no();
+            return R.no("无效的请求登录");
         }
         String msg = adminService.okLogin(code1, code2);
-        if(null==msg){
-            return R.no();
+        if(null!=msg){
+            return R.no(msg);
         }
         return R.ok(null);
     }
@@ -150,6 +145,77 @@ public class AdminController {
         return R.ok(null);
 
     }
+
+
+    //读取美颜设置
+    @PostMapping("/getWebGlow")
+    public R getWebGlow(){
+        int id = Integer.parseInt(StpUtil.getTokenInfo().getLoginId().toString());
+        if(id!=1){
+            return R.no("非法请求");
+        }
+        return R.ok(adminService.getWebGlow());
+
+    }
+
+    //修改美颜设置
+    @PostMapping("/updateWebGlow")
+    public R updateWebGlow(@RequestBody WebGlow webGlow){
+        int id = Integer.parseInt(StpUtil.getTokenInfo().getLoginId().toString());
+        if(id!=1){
+            return R.no("非法请求");
+        }
+        adminService.updateWebGlow(webGlow);
+        return R.ok(null);
+
+    }
+
+    //读取探索中心设置
+    @PostMapping("/getExploreSet")
+    public R getExploreSet(){
+        int id = Integer.parseInt(StpUtil.getTokenInfo().getLoginId().toString());
+        if(id!=1){
+            return R.no("非法请求");
+        }
+        return R.ok(adminService.getExploreSet());
+
+    }
+
+    //修改探索中心设置
+    @PostMapping("/updateExploreSet")
+    public R updateExploreSet(@RequestBody AppSet appSet){
+        int id = Integer.parseInt(StpUtil.getTokenInfo().getLoginId().toString());
+        if(id!=1){
+            return R.no("非法请求");
+        }
+        adminService.updateExploreSet(appSet);
+        return R.ok(null);
+    }
+
+    //操作用户状态
+    @PostMapping("/updateUserStatus")
+    public R updateUserStatus(Integer userId,Integer type){
+        int id = Integer.parseInt(StpUtil.getTokenInfo().getLoginId().toString());
+        if(id!=1){
+            return R.no("非法请求");
+        }
+        if(type<1 || type>2){
+            return R.no("非法请求");
+        }
+        adminService.updateUserStatus(userId,type);
+        return R.ok(null);
+    }
+
+    //使用量统计
+    @PostMapping("/exploreIndexAdmin")
+    public R exploreIndexAdmin(){
+        int id = Integer.parseInt(StpUtil.getTokenInfo().getLoginId().toString());
+        if(id!=1){
+            return R.no("非法请求");
+        }
+        return R.ok(adminService.exploreIndexAdmin());
+    }
+
 
 
 }

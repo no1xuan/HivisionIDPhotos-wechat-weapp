@@ -2,10 +2,13 @@ package org.zjzWx.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.springframework.data.domain.Page;
 import org.zjzWx.entity.*;
+import org.zjzWx.model.dto.ExploreIndexAdminDto;
+import org.zjzWx.model.dto.ExploreIndexDto;
 import org.zjzWx.model.vo.AdminIndexVo;
 import org.zjzWx.model.vo.AdminLoginVo;
+
+import java.util.List;
 
 public interface AdminService extends IService<Admin> {
 
@@ -41,4 +44,24 @@ public interface AdminService extends IService<Admin> {
 
     //修改系统设置
     void updateWebSet(WebSet webSet);
+
+    //读取美颜设置
+    WebGlow getWebGlow();
+
+    //修改美颜设置
+    void updateWebGlow(WebGlow webGlow);
+
+    //读取探索中心设置
+    List<AppSet> getExploreSet();
+
+    //修改探索中心设置
+    void updateExploreSet(AppSet appSet);
+
+    //操作用户状态
+    void updateUserStatus(Integer userId,Integer type);
+
+    //使用量统计
+    ExploreIndexAdminDto exploreIndexAdmin();
+
+
 }

@@ -20,4 +20,7 @@ public interface OtherApiService {
 
     //生成动漫风滤镜（新海诚画风）
     String cartoon(ExploreDto exploreDto);
+
+    //返回用户剩余次数,type对应explore_set表，type2对应photo_record
+    long checkTheFreeQuota(Integer type,Integer type2,Integer userId);
 }

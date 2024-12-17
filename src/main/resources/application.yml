@@ -43,6 +43,8 @@ mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     auto-mapping-behavior: FULL
+  global-config:
+    banner: false #关闭mybatis-plus启动的LOGO
 
 
 
@@ -75,7 +77,8 @@ sa-token:
   isReadCookie: false
   #是否在登录后将 Token 写入到响应头
   isWriteHeader: false
-
+  #关闭Sa-Token启动的LOGO
+  is-print: off
 
 
 #系统配置
@@ -94,7 +97,7 @@ webset:
   colourizeDomain: http://127.0.0.1/
   #动漫风图片API地址
   cartoonDomain: http://127.0.0.1/
-  #二维码：正式版为：release，体验版为：trial，开发版为：develop
+  #管理员登录二维码：正式版：release，体验版：trial，开发版：develop
   envVersion: release
 
 
