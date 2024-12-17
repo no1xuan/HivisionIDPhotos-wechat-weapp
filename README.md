@@ -69,6 +69,7 @@ uniapp多端兼容版：https://github.com/wmlcjj/AI-IDPhoto
 
 2. 鉴黄APi下载：https://github.com/no1xuan/zjzNsfw
 3. 黑白图片上色API：https://github.com/no1xuan/colourize
+4. 动漫风图片API：https://github.com/no1xuan/cartoon
 
 注意:
 
