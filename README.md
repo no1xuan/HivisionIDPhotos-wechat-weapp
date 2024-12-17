@@ -187,7 +187,7 @@ uniapp多端兼容版：https://github.com/wmlcjj/AI-IDPhoto
 
 鉴黄APi：http://121.62.63.137:3006/
 
-证件照和智能抠图APi：http://121.62.63.137:8299/
+证件照和智能抠图APi：http://121.62.63.137:8399/
 
 黑白图片上色API：http://colourize.0po.cn/
 
