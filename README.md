@@ -35,7 +35,7 @@ uniapp多端兼容版：https://github.com/wmlcjj/AI-IDPhoto
 # ⭐最近更新
     版本更新教程：https://www.bilibili.com/video/BV1xNUvYTEjo
 
-- 2024.12.17：跟上HivisionIDPhotos(2024.11.20)，增加美颜，探索功能增加每日免费次数，功能可以管理员后台自由开关控制，修复90%的历史遗留包裹，sql更新教程：https://0po.cn/archives/50 ，以后如果有更新计划将会在周五/六/日的某一天进行更新
+- 2024.12.17：跟上HivisionIDPhotos(2024.11.20)，增加美颜，探索功能增加每日免费次数，功能可以管理员后台自由开关控制，修复90%的历史遗留包裹，sql更新教程：https://www.0po.cn/archives/50 ，以后如果有更新计划将会在周五/六/日的某一天进行更新
 - 2024.12.11：紧急修复图片动漫风功能图片太大导致无法生成的问题
 - 2024.12.06：增加图片动漫风功能
 - 2024.11.29：优化加快itemList和photoList接口，修正六寸排版照存储库名不规范
