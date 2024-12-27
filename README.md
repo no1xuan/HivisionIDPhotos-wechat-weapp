@@ -5,7 +5,7 @@
 # 项目介绍
 
 # <p align="center">证件照伴侣</p>
-<p align="center">少年一定要有所失 才能有所悟.</p>
+<p align="center">2025我们一起加油，心如所愿，梦想成真.</p>
 <p align="center"><img src="./assets/1.png"></p>
 
 
