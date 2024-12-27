@@ -28,16 +28,16 @@ public interface AdminService extends IService<Admin> {
     IPage<Item> getItemPage(int pageNum, int pageSize, String name);
 
     //用户自定义分页
-    IPage<Custom> getCustomPage(int pageNum, int pageSize, String name);
+    IPage<Custom> getCustomPage(int pageNum, int pageSize, int userId);
 
     //保存列表
-    IPage<Photo> getPhotoPage(int pageNum, int pageSize, String name);
+    IPage<Photo> getPhotoPage(int pageNum, int pageSize, int userId,String name);
 
     //行为记录
-    IPage<PhotoRecord> getPhotoRecordPage(int pageNum, int pageSize, Integer userId);
+    IPage<PhotoRecord> getPhotoRecordPage(int pageNum, int pageSize,int userId);
 
     //用户列表
-    IPage<User> getUserPage(int pageNum, int pageSize, String name);
+    IPage<User> getUserPage(int pageNum, int pageSize,int userId,String name);
 
     //读取系统设置
     WebSet getWebSet();
@@ -57,8 +57,8 @@ public interface AdminService extends IService<Admin> {
     //修改探索中心设置
     void updateExploreSet(AppSet appSet);
 
-    //操作用户状态
-    void updateUserStatus(Integer userId,Integer type);
+    //用户列表面板：type=1踢掉登录状态，2删除定制记录，3删除保存记录，4删除行为记录，5禁止登录并踢掉登录，6恢复登录
+    String updateUserStatus(Integer userId,Integer type);
 
     //使用量统计
     ExploreIndexAdminDto exploreIndexAdmin();

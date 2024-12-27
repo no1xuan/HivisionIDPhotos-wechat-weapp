@@ -80,31 +80,31 @@ public class AdminController {
     }
 
 
-    //管理员用户定制规格列表
+    //定制列表
     @PostMapping("/getCustomPage")
-    public R getCustomPage(int pageNum, int pageSize, String name){
+    public R getCustomPage(int pageNum, int pageSize, int userId){
         int id = Integer.parseInt(StpUtil.getTokenInfo().getLoginId().toString());
         if(id!=1){
             return R.no("非法请求");
         }
-        return R.ok(adminService.getCustomPage(pageNum, pageSize, name));
+        return R.ok(adminService.getCustomPage(pageNum, pageSize, userId));
     }
 
 
     //保存列表
     @PostMapping("/getPhotoPage")
-    public R getPhotoPage(int pageNum, int pageSize, String name){
+    public R getPhotoPage(int pageNum, int pageSize,int userId,String name){
         int id = Integer.parseInt(StpUtil.getTokenInfo().getLoginId().toString());
         if(id!=1){
             return R.no("非法请求");
         }
-        return R.ok(adminService.getPhotoPage(pageNum,pageSize,name));
+        return R.ok(adminService.getPhotoPage(pageNum,pageSize,userId,name));
 
     }
 
     //行为记录
     @PostMapping("/getPhotoRecordPage")
-    public R getPhotoRecordPage(int pageNum, int pageSize, Integer userId){
+    public R getPhotoRecordPage(int pageNum, int pageSize, int userId){
         int id = Integer.parseInt(StpUtil.getTokenInfo().getLoginId().toString());
         if(id!=1){
             return R.no("非法请求");
@@ -114,12 +114,12 @@ public class AdminController {
 
     //用户列表
     @PostMapping("/getUserPage")
-    public R getUserPage(int pageNum, int pageSize, String name){
+    public R getUserPage(int pageNum, int pageSize,int userId,String name){
         int id = Integer.parseInt(StpUtil.getTokenInfo().getLoginId().toString());
         if(id!=1){
             return R.no("非法请求");
         }
-        return R.ok(adminService.getUserPage(pageNum,pageSize,name));
+        return R.ok(adminService.getUserPage(pageNum,pageSize,userId,name));
 
     }
 
@@ -192,19 +192,23 @@ public class AdminController {
         return R.ok(null);
     }
 
-    //操作用户状态
+
+    //用户列表面板：type=1踢掉登录状态，2删除定制记录，3删除保存记录，4删除行为记录，5禁止登录并踢掉登录，6恢复登录
     @PostMapping("/updateUserStatus")
     public R updateUserStatus(Integer userId,Integer type){
         int id = Integer.parseInt(StpUtil.getTokenInfo().getLoginId().toString());
         if(id!=1){
             return R.no("非法请求");
         }
-        if(type<1 || type>2){
-            return R.no("非法请求");
+        if(1==userId && 1==type){
+            return R.no("您不能踢掉自已的登录状态");
         }
-        adminService.updateUserStatus(userId,type);
-        return R.ok(null);
+        if(1==userId && 5==type){
+            return R.no("您不能禁止自已登录");
+        }
+        return R.ok(adminService.updateUserStatus(userId,type));
     }
+
 
     //使用量统计
     @PostMapping("/exploreIndexAdmin")

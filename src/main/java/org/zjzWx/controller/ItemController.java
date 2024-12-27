@@ -58,13 +58,10 @@ public class ItemController {
         return R.ok(photoService.photoList(pageNum, pageSize, StpUtil.getTokenInfo().getLoginId().toString()));
     }
 
-    //删除作品（下个版本更新物理删除）
+    //删除作品
     @GetMapping("/deletePhotoId")
     public R deletePhotoId(int id){
-        QueryWrapper<Photo> qw = new QueryWrapper<>();
-        qw.eq("id",id);
-        qw.eq("user_id",StpUtil.getTokenInfo().getLoginId());
-        photoService.remove(qw);
+        photoService.deletePhotoId(id,StpUtil.getTokenInfo().getLoginId().toString());
         return R.ok(null);
     }
 

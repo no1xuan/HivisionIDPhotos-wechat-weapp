@@ -2,13 +2,21 @@ package org.zjzWx.task;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.zjzWx.entity.Photo;
 import org.zjzWx.service.PhotoService;
+import org.zjzWx.util.PicUtil;
+
+import java.util.List;
 
 @Component
 public class PhotoTask {
+
+
+    @Value("${webset.directory}")
+    private String directory;
     @Autowired
     private PhotoService photoService;
 
@@ -17,7 +25,12 @@ public class PhotoTask {
     public void executeTask() {
         QueryWrapper<Photo> qw = new QueryWrapper<>();
         qw.isNull("n_img");
-        photoService.remove(qw);
+        List<Photo> list = photoService.list(qw);
+        for (Photo photo : list) {
+            PicUtil.deleteImage(photo.getNImg(),directory);
+            photoService.removeById(photo);
+        }
+
     }
 
 

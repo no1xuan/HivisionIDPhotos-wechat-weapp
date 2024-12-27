@@ -1,7 +1,6 @@
 package org.zjzWx.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -9,25 +8,21 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.*;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.zjzWx.dao.AdminDao;
 import org.zjzWx.entity.*;
 import org.zjzWx.model.dto.ExploreIndexAdminDto;
-import org.zjzWx.model.dto.ExploreIndexDto;
 import org.zjzWx.model.vo.AdminIndexVo;
 import org.zjzWx.model.vo.AdminLoginVo;
 import org.zjzWx.model.vo.ChartDataVo;
 import org.zjzWx.service.*;
-import org.zjzWx.util.HttpClient;
+import org.zjzWx.util.PicUtil;
 import org.zjzWx.util.R;
 
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.time.*;
 import java.util.*;
 
@@ -36,6 +31,8 @@ public class AdminServiceImpl extends ServiceImpl<AdminDao, Admin> implements Ad
 
     @Value("${webset.envVersion}")
     private String envVersion;
+    @Value("${webset.directory}")
+    private String directory;
 
     @Autowired
     private WebSetService webSetService;
@@ -66,58 +63,38 @@ public class AdminServiceImpl extends ServiceImpl<AdminDao, Admin> implements Ad
             mp.put("scene", code);
             mp.put("page", "pages/admin/index");
             mp.put("check_path", false);
-            // 要打开的小程序版本。正式版为 "release"，体验版为 "release"，开发版为 "develop"。默认是正式版
-            mp.put("env_version", envVersion);
+            mp.put("env_version", envVersion); //要打开的小程序版本。正式版为 "release"，体验版为 "release"，开发版为 "develop"
+
+            //获取access_token
             String url1 = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + webSet.getAppId() + "&secret=" + webSet.getAppSecret();
-            HttpClient http1 = new HttpClient(url1);
-            http1.setHttps(true);
-            http1.post();
-            // 格式化微信官方返回
-            JSONObject jsonopenid = JSONObject.parseObject(http1.getContent());
+            RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<String> response = restTemplate.exchange(url1, HttpMethod.GET, null, String.class);
+            JSONObject jsonopenid = JSONObject.parseObject(response.getBody());
             String accessToken = jsonopenid.getString("access_token");
 
-            // 调用微信接口生成小程序码
-            URL url = new URL("https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=" + accessToken);
-            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-            httpURLConnection.setRequestMethod("POST");
-            httpURLConnection.setConnectTimeout(10000);
-            httpURLConnection.setReadTimeout(10000);
-            httpURLConnection.setDoOutput(true);
-            httpURLConnection.setDoInput(true);
 
-            PrintWriter printWriter = new PrintWriter(httpURLConnection.getOutputStream());
-            printWriter.write(JSON.toJSONString(mp));
-            printWriter.flush();
-            printWriter.close();
+            // 获取小程序码
+            String url2 = "https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=" + accessToken;
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<String> entity = new HttpEntity<>(JSONObject.toJSONString(mp), headers);
+            ResponseEntity<byte[]> byteResponse = restTemplate.exchange(url2, HttpMethod.POST, entity, byte[].class);
 
-            // 读取响应
-            InputStream inputStream = httpURLConnection.getInputStream();
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            byte[] buffer = new byte[1024];
-            int len;
-            while ((len = inputStream.read(buffer)) != -1) {
-                byteArrayOutputStream.write(buffer, 0, len);
-            }
 
-            // 关闭流
-            inputStream.close();
-            byteArrayOutputStream.close();
+            //将响应字节数组转换为 MultipartFile 再转 base64
+            MultipartFile multipartFile = new MockMultipartFile("file", "qrcode.png", "image/jpg", byteResponse.getBody());
+            R data = uploadService.uploadPhoto(multipartFile, "qrcode.png");
 
-            // 将响应字节数组转换为MultipartFile
-            byte[] imageBytes = byteArrayOutputStream.toByteArray();
-            MultipartFile multipartFile = new MockMultipartFile("file", "qrcode.png", "image/jpg", imageBytes);
-
-            // 转换成base64
-            R r = uploadService.uploadPhoto(multipartFile, "qrcode.png");
-            //无论成功失败，清理所有记录，防止网页多次生成导致离奇bug
+            //无论成功失败，清理所有记录，防止打开多个网页标签而导致多次生成的问题
             baseMapper.delete(null);
-            if (r.getCode() == 200) {
+
+            if (data.getCode() == 200) {
                 Admin admin = new Admin();
                 admin.setCode(code);
                 baseMapper.insert(admin);
 
                 AdminLoginVo adminLoginVo = new AdminLoginVo();
-                adminLoginVo.setPic(r.getData().toString());
+                adminLoginVo.setPic(data.getData().toString());
                 adminLoginVo.setCode(code);
                 return adminLoginVo;
             }
@@ -126,6 +103,8 @@ public class AdminServiceImpl extends ServiceImpl<AdminDao, Admin> implements Ad
         }
         return null;
     }
+
+
 
     @Override
     public String checkLogin(String code) {
@@ -155,24 +134,31 @@ public class AdminServiceImpl extends ServiceImpl<AdminDao, Admin> implements Ad
             }
 
             WebSet webSet = webSetService.getById(1);
-            //发起登录请求
             String url = "https://api.weixin.qq.com/sns/jscode2session?appid="+webSet.getAppId()
                     +"&secret="+webSet.getAppSecret()+"&js_code=" + code1 + "&grant_type=authorization_code";
-            HttpClient http = new HttpClient(url);
-            http.setHttps(true);
-            http.post();
-            String content = http.getContent();
-            //格式化微信官方返回
-            JSONObject jsonopenid = JSONObject.parseObject(content);
+
+            //发起请求
+            RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+            JSONObject jsonopenid = JSONObject.parseObject(response.getBody());
+            if(null==jsonopenid){
+                return "与微信通讯失败，请重试";
+            }
+
             String openid = jsonopenid.getString("openid");
-            if(null==openid){  //高风险的微信用户/数据库配置错误/安全域名没有添加会存在openid没有的情况
-                return "与微信通讯失败";
+            // 高风险的微信用户/数据库配置错误/安全域名没有添加会存在openid没有的情况
+            if (null==openid) {
+                return jsonopenid.toString();
             }
 
             QueryWrapper<User> qwuser = new QueryWrapper<>();
             qwuser.eq("openid",openid);
             User user = userService.getOne(qwuser);
-            if(null!=user && 1==user.getId()){
+            if(null==user){
+                return "您未注册，无法检查您是否为管理员";
+            }
+
+            if(1==user.getId()){
                 admin.setStatus(1);
                 baseMapper.updateById(admin);
                 return null;
@@ -280,20 +266,23 @@ public class AdminServiceImpl extends ServiceImpl<AdminDao, Admin> implements Ad
     }
 
     @Override
-    public IPage<Custom> getCustomPage(int pageNum, int pageSize, String name) {
+    public IPage<Custom> getCustomPage(int pageNum, int pageSize, int userId) {
         Page<Custom> page = new Page<>(pageNum, pageSize);
         QueryWrapper<Custom> qw = new QueryWrapper<>();
-        if(null!=name && !"".equals(name)){
-            qw.like("name",name);
+        if(0!=userId){
+            qw.eq("user_id",userId);
         }
         qw.orderByDesc("create_time");
         return customService.page(page, qw);
     }
 
     @Override
-    public IPage<Photo> getPhotoPage(int pageNum, int pageSize, String name) {
+    public IPage<Photo> getPhotoPage(int pageNum, int pageSize, int userId,String name) {
         Page<Photo> page = new Page<>(pageNum, pageSize);
         QueryWrapper<Photo> qw = new QueryWrapper<>();
+        if(0!=userId){
+            qw.eq("user_id",userId);
+        }
         if(null!=name && !"".equals(name)){
             qw.like("name",name);
         }
@@ -303,10 +292,10 @@ public class AdminServiceImpl extends ServiceImpl<AdminDao, Admin> implements Ad
     }
 
     @Override
-    public IPage<PhotoRecord> getPhotoRecordPage(int pageNum, int pageSize, Integer userId) {
+    public IPage<PhotoRecord> getPhotoRecordPage(int pageNum, int pageSize, int userId) {
         Page<PhotoRecord> page = new Page<>(pageNum, pageSize);
         QueryWrapper<PhotoRecord> qw = new QueryWrapper<>();
-        if(null!=userId && 0!=userId){
+        if(0!=userId){
             qw.eq("user_id",userId);
         }
         qw.orderByDesc("create_time");
@@ -314,9 +303,12 @@ public class AdminServiceImpl extends ServiceImpl<AdminDao, Admin> implements Ad
     }
 
     @Override
-    public IPage<User> getUserPage(int pageNum, int pageSize, String name) {
+    public IPage<User> getUserPage(int pageNum, int pageSize,int userId,String name) {
         Page<User> page = new Page<>(pageNum, pageSize);
         QueryWrapper<User> qw = new QueryWrapper<>();
+        if(0!=userId){
+            qw.eq("id",userId);
+        }
         if(null!=name && !"".equals(name)){
             qw.like("nickname",name);
         }
@@ -326,7 +318,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminDao, Admin> implements Ad
 
     @Override
     public WebSet getWebSet() {
-        return webSetService.getOne(null);
+        return webSetService.getById(1);
     }
 
     @Override
@@ -358,11 +350,49 @@ public class AdminServiceImpl extends ServiceImpl<AdminDao, Admin> implements Ad
     }
 
     @Override
-    public void updateUserStatus(Integer userId, Integer type) {
-        User user = new User();
-        user.setId(userId);
-        user.setStatus(type);
-        userService.updateById(user);
+    public String updateUserStatus(Integer userId, Integer type) {
+        //type=1踢掉登录状态，2删除定制记录，3删除保存记录，4删除行为记录，5禁止登录并踢掉登录，6恢复登录
+        if(type==1){
+            StpUtil.kickout(userId);
+            return "踢掉成功";
+        }else if(type==2){
+            QueryWrapper<Custom> qw = new QueryWrapper<>();
+            qw.eq("user_id",userId);
+            customService.remove(qw);
+            return "删除成功";
+        }else if(type==3){
+            QueryWrapper<Photo> qw = new QueryWrapper<>();
+            qw.eq("user_id",userId);
+            List<Photo> list = photoService.list(qw);
+            if(null!=list && list.size()>0){
+                for (Photo photo : list) {
+                    PicUtil.deleteImage(photo.getNImg(),directory);
+                    photoService.removeById(photo);
+                }
+            }
+            return "删除成功";
+        }else if(type==4){
+            QueryWrapper<PhotoRecord> qw = new QueryWrapper<>();
+            qw.eq("user_id",userId);
+            photoRecordService.remove(qw);
+            return "删除成功";
+        }else if(type==5){
+            User user = new User();
+            user.setId(userId);
+            user.setStatus(2);
+            userService.updateById(user);
+            StpUtil.kickout(userId);
+            return "已禁止并踢掉登录";
+        }else if(type==6){
+            User user = new User();
+            user.setId(userId);
+            user.setStatus(1);
+            userService.updateById(user);
+            return "已恢复";
+        }else {
+            return "非法请求";
+        }
+
     }
 
     @Override
@@ -397,7 +427,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminDao, Admin> implements Ad
             if(appSet.getType()==7){
                 QueryWrapper<PhotoRecord> qw5  = new QueryWrapper<>();
                 qw5.eq("type",9);
-                exploreIndexAdmin.setImageDefinitionEnhanceCount(photoRecordService.count(qw5));
+                exploreIndexAdmin.setEditImageCount(photoRecordService.count(qw5));
             }
 
             if(appSet.getType()==8){

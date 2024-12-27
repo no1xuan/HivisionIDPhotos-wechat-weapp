@@ -6,7 +6,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.zjzWx.dao.UserDao;
 import org.zjzWx.entity.User;
@@ -15,14 +17,7 @@ import org.zjzWx.model.vo.WxLoginVo;
 import org.zjzWx.service.UserService;
 import org.springframework.stereotype.Service;
 import org.zjzWx.service.WebSetService;
-import org.zjzWx.util.HttpClient;
 import org.zjzWx.util.PicUtil;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,21 +42,26 @@ public class UserServiceImpl extends ServiceImpl<UserDao,User> implements UserSe
         WxLoginVo wxlogin = new WxLoginVo();
         try {
             WebSet webSet = webSetService.getById(1);
-            //发起登录请求
             String url = "https://api.weixin.qq.com/sns/jscode2session?appid="+webSet.getAppId()
                     +"&secret="+webSet.getAppSecret()+"&js_code=" + code + "&grant_type=authorization_code";
-            HttpClient http = new HttpClient(url);
-            http.setHttps(true);
-            http.post();
-            String content = http.getContent();
-            //格式化微信官方返回
-            JSONObject jsonopenid = JSONObject.parseObject(content);
+
+            //发起请求
+            RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+            JSONObject jsonopenid = JSONObject.parseObject(response.getBody());
+            if(null==jsonopenid){
+                wxlogin.setMsg("与微信通讯失败，请重试");
+                return wxlogin;
+            }
+
             String openid = jsonopenid.getString("openid");
-            if(null==openid){  //高风险的微信用户/数据库配置错误/安全域名没有添加会存在openid没有的情况
+            // 高风险的微信用户/数据库配置错误/安全域名没有添加会存在openid没有的情况
+            if (null==openid) {
                 wxlogin.setMsg(jsonopenid.toString());
                 return wxlogin;
             }
 
+            //获取openid成功
             QueryWrapper<User> qw = new QueryWrapper<>();
             qw.eq("openid",openid);
             User user = baseMapper.selectOne(qw);

@@ -18,12 +18,13 @@ import java.util.Date;
 //图片工具类
 public class PicUtil {
 
+
+    //图片上传
     //folderName          文件夹目录
     //directory           图片路径
     //originalFilename    原始图片名
     //file                前端传过来的图片
     public static String filesCopy(String folderName,String directory,String originalFilename,MultipartFile file) throws IOException {
-        String filename = null;
 
         File uploadFolder = new File(directory, folderName);
         if (!uploadFolder.exists()) {
@@ -31,13 +32,32 @@ public class PicUtil {
         }
 
         // 生成新的文件名
-        filename = generateUniqueFilename(originalFilename, file);
+        String filename = generateUniqueFilename(originalFilename, file);
         Path filePath = uploadFolder.toPath().resolve(filename);
         // 保存文件
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
         return filename;
     }
+
+    //图片删除
+    public static void deleteImage(String picUrl,String directory) {
+
+        String[] parts = picUrl.split("/");
+
+        File uploadFolder = new File(directory, parts[3]);
+        // 检查文件夹是否存在
+        if (uploadFolder.exists()) {
+            File fileToDelete = new File(uploadFolder, parts[4]);
+            // 判断文件是否存在
+            if (fileToDelete.exists()) {
+                fileToDelete.delete();
+            }
+        }
+
+    }
+
+
 
 
 

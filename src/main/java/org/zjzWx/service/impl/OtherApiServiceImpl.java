@@ -8,6 +8,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.zjzWx.entity.AppSet;
@@ -16,6 +17,7 @@ import org.zjzWx.entity.PhotoRecord;
 import org.zjzWx.model.dto.*;
 import org.zjzWx.service.*;
 import org.zjzWx.util.PicUtil;
+import org.zjzWx.util.R;
 
 import java.time.*;
 import java.util.Date;
@@ -49,6 +51,8 @@ public class OtherApiServiceImpl implements OtherApiService {
     private PhotoRecordService photoRecordService;
     @Autowired
     private AppSetService appSetService;
+    @Autowired
+    private UploadService uploadService;
 
 
 
@@ -95,11 +99,11 @@ public class OtherApiServiceImpl implements OtherApiService {
             }
             if(appSet.getType()==7){
                 if(appSet.getStatus()==0){
-                    exploreIndexDto.setImageDefinitionEnhanceCount(-1L);;
+                    exploreIndexDto.setEditImageCount(-1L);;
                 }else {
                     QueryWrapper<PhotoRecord> qw5  = new QueryWrapper<>();
                     qw5.eq("type",9);
-                    exploreIndexDto.setImageDefinitionEnhanceCount(photoRecordService.count(qw5));
+                    exploreIndexDto.setEditImageCount(photoRecordService.count(qw5));
                 }
             }
 
@@ -372,7 +376,70 @@ public class OtherApiServiceImpl implements OtherApiService {
             record.setUserId(exploreDto.getUserId());
             record.setCreateTime(new Date());
             photoRecordService.save(record);
-            ;
+
+            return imagePath;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    @Override
+    public String editImage(ExploreDto exploreDto) {
+
+        try {
+            //base64转MultipartFile，进行保存文件并返回url
+            MultipartFile file = PicUtil.base64ToMultipartFile(exploreDto.getProcessedImage());
+
+            //危险接口，必须再一次检查,防止数据伪造，如：被劫持数据包上传黄色，木马什么的
+            // 检查文件类型
+            String originalFilename = file.getOriginalFilename();
+            if (!StringUtils.hasText(originalFilename) || (!originalFilename.toLowerCase().endsWith(".png")
+                    && !originalFilename.toLowerCase().endsWith(".jpg")) && !originalFilename.toLowerCase().endsWith(".jpeg")) {
+                // 文件类型不合法
+                return null;
+            }
+
+            // 防止被当图床
+            if (file.getSize() > 15 * 1024 * 1024) {
+                return null;
+            }
+
+
+            QueryWrapper<AppSet> qwapp = new QueryWrapper<>();
+            qwapp.eq("type",1);
+            AppSet appSet = appSetService.getOne(qwapp);
+            //如果开启鉴黄
+            if(appSet.getStatus()==1){
+                String s = uploadService.checkNsfw(file);
+                if(s!=null){
+                    return null;
+                }
+            }
+
+            String filename = PicUtil.filesCopy("editImage", directory, originalFilename, file);
+
+            String imagePath = picDomain + "editImage" + "/" + filename;
+
+
+            Photo photo = new Photo();
+            photo.setUserId(exploreDto.getUserId());
+            photo.setName("图片编辑");
+            photo.setNImg(imagePath);
+            photo.setSize("无规格");
+            photo.setCreateTime(new Date());
+            photoService.save(photo);
+
+
+            //保存用户行为记录
+            PhotoRecord record = new PhotoRecord();
+            record.setType(9);
+            record.setName("生成图片编辑");
+            record.setUserId(exploreDto.getUserId());
+            record.setCreateTime(new Date());
+            photoRecordService.save(record);
+
             return imagePath;
         } catch (Exception e) {
             e.printStackTrace();

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ExploreDto {
+    //用户id，由控制器解密token传入
     private Integer userId;
     //图片分辨率，抠图/六寸排版用到
     private Integer dpi;

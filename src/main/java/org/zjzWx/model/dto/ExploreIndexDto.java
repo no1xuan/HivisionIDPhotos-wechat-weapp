@@ -18,6 +18,6 @@ public class ExploreIndexDto {
     private long mattingCount;
     //动漫数量
     private long cartoonCount;
-    //清晰度数量
-    private long imageDefinitionEnhanceCount;
+    //图片编辑数量
+    private long editImageCount;
 }

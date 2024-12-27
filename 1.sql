@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2024-12-17 10:01:30
+-- 生成日期： 2024-12-27 11:01:34
 -- 服务器版本： 8.0.35
 -- PHP 版本： 8.0.26
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- 数据库： `zjzwx3`
+-- 数据库： `zjzwx1`
 --
 
 -- --------------------------------------------------------
@@ -41,7 +41,7 @@ CREATE TABLE `admin` (
 
 CREATE TABLE `app_set` (
   `id` int NOT NULL COMMENT '探索中心设置表',
-  `type` int DEFAULT NULL COMMENT '类型：1鉴黄，2美颜，3智能证件照，4六寸排版照，5老照片上色，6智能抠图，7照片清晰增强，8新海诚动漫风',
+  `type` int DEFAULT NULL COMMENT '类型：1鉴黄，2美颜，3智能证件照，4六寸排版照，5老照片上色，6智能抠图，7图片编辑，8新海诚动漫风',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '名字',
   `status` int DEFAULT '1' COMMENT '0关闭，1开启，2次数限制（status==2时type=1和2没用 | type==3时 0代表关闭下载高清证件照广告，1代表开启广告下载高清证件照广告，2没用）',
   `counts` int DEFAULT '0' COMMENT '用户每天免费次数（type=1，2，3没用）'
@@ -56,7 +56,7 @@ INSERT INTO `app_set` (`id`, `type`, `name`, `status`, `counts`) VALUES
 (2, 4, '六寸排版照', 1, 0),
 (3, 5, '老照片上色', 1, 0),
 (4, 6, '智能抠图', 1, 0),
-(5, 7, '照片清晰增强', 1, 0),
+(5, 7, '图片编辑', 1, 0),
 (6, 8, '新海诚动漫风', 1, 0),
 (7, 1, '鉴黄', 0, 0),
 (8, 2, '美颜', 1, 0);
@@ -888,7 +888,7 @@ CREATE TABLE `photo` (
 
 CREATE TABLE `photo_record` (
   `id` int NOT NULL COMMENT '用户行为记录',
-  `type` int DEFAULT '0' COMMENT '类型：0旧数据，1生成证件照，2生成高清证件照，3换背景，4下载证件照，5老照片上色，6智能抠图，7六寸排版照，8动漫风照，9照片清晰增强，10上传图片',
+  `type` int DEFAULT '0' COMMENT '类型：0旧数据，1生成证件照，2生成高清证件照，3换背景，4下载证件照，5老照片上色，6智能抠图，7六寸排版照，8动漫风照，9图片编辑，10上传图片',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '名字',
   `user_id` int DEFAULT NULL COMMENT '用户id',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间'

@@ -17,7 +17,7 @@ public class AppSet {
 @TableId(type = IdType.AUTO)
     private Integer id;
 /**
-     * 类型：1鉴黄，2美颜，3智能证件照，4六寸排版照，5老照片上色，6智能抠图，7照片清晰增强，8新海诚动漫风
+     * 类型：1鉴黄，2美颜，3智能证件照，4六寸排版照，5老照片上色，6智能抠图，7图片编辑，8新海诚动漫风
      */
     private Integer type;
 /**

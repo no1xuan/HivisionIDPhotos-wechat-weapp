@@ -20,6 +20,12 @@ public class OtherApiController {
         return R.ok(otherApiService.exploreDtoCount());
     }
 
+    @GetMapping("/checkTheFreeQuota")
+    public R checkTheFreeQuota(Integer type,Integer type2) {
+        long count = otherApiService.checkTheFreeQuota(type, type2, Integer.parseInt(StpUtil.getTokenInfo().getLoginId().toString()));
+        return R.ok(count);
+    }
+
 
     @PostMapping("/colourize")
     public R colourize(@RequestBody ExploreDto exploreDto) {
@@ -62,10 +68,14 @@ public class OtherApiController {
         return R.ok(cartoon);
     }
 
-    @GetMapping("/checkTheFreeQuota")
-    public R checkTheFreeQuota(Integer type,Integer type2) {
-        long count = otherApiService.checkTheFreeQuota(type, type2, Integer.parseInt(StpUtil.getTokenInfo().getLoginId().toString()));
-        return R.ok(count);
+    @PostMapping("/editImage")
+    public R editImage(@RequestBody ExploreDto exploreDto) {
+        exploreDto.setUserId(Integer.parseInt(StpUtil.getTokenInfo().getLoginId().toString()));
+        String editImage = otherApiService.editImage(exploreDto);
+        if(null==editImage){
+            return R.no("图片编辑失败，请重试");
+        }
+        return R.ok(editImage);
     }
 
 

@@ -19,7 +19,7 @@ public class ExploreIndexAdminDto {
     //动漫数量
     private long cartoonCount;
     //清晰度数量
-    private long imageDefinitionEnhanceCount;
+    private long editImageCount;
     //上传图片数量
     private long imageuploadCount;
     //总计
