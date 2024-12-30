@@ -60,7 +60,7 @@ uniapp多端兼容版：https://github.com/wmlcjj/AI-IDPhoto
 <br>
 
 
-#  📦API接口说明
+#  📦私有化部署API接口说明
 
 本项目证件照功能的API是基于HivisionIDPhotos的2024.11.20的版本进行对接开发
 
