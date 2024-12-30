@@ -60,21 +60,24 @@ uniapp多端兼容版：https://github.com/wmlcjj/AI-IDPhoto
 <br>
 
 
-#  📦前提准备
+#  📦API接口说明
 
 本项目证件照功能的API是基于HivisionIDPhotos的2024.11.20的版本进行对接开发
 
 理论HivisionIDPhotos不改变入参和返回，即可直接使用最新版
 
 1. 2024.11.20的HivisionIDPhotos（以内置MTCNN+hivision_modnet模型）下载：https://wwba.lanzouq.com/ipyhs2hzujgf
+   <br />
+   （注：智能抠图功能需要单独前往HivisionIDPhotos下载birefnet-v1-lite模型）
 
-2. 鉴黄APi下载：https://github.com/no1xuan/zjzNsfw
-3. 黑白图片上色API：https://github.com/no1xuan/colourize
-4. 动漫风图片API：https://github.com/no1xuan/cartoon
+3. 鉴黄API下载：https://github.com/no1xuan/zjzNsfw
+4. 黑白图片上色API：https://github.com/no1xuan/colourize
+5. 动漫风图片API：https://github.com/no1xuan/cartoon
 
 注意:
 
 1. **鉴黄模型目前不怎么精准，建议在小程序过审时打开，其它时间关闭**
+2. API部署教程：https://www.bilibili.com/video/BV1CtUeYaE7i
 
 
 
