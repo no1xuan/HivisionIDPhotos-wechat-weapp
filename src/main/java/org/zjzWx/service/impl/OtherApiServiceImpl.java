@@ -36,6 +36,9 @@ public class OtherApiServiceImpl implements OtherApiService {
     @Value("${webset.mattingDomain}")
     private String mattingDomain;
 
+    @Value("${webset.zjzDomain}")
+    private String zjzDomain;
+
     @Value("${webset.colourizeDomain}")
     private String colourizeDomain;
 
@@ -284,7 +287,7 @@ public class OtherApiServiceImpl implements OtherApiService {
             HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
             ResponseEntity<String> response = restTemplate.exchange(
-                    mattingDomain+"/generate_layout_photos",
+                    zjzDomain+"/generate_layout_photos",
                     HttpMethod.POST,
                     requestEntity,
                     String.class);

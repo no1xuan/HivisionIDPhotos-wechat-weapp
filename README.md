@@ -1,3 +1,9 @@
+
+<p align="center"><a href="https://www.nzcdn.com" target="_blank"><img src="./assets/nz.png"></a></p>
+<p align="center"><a href="https://www.nzcdn.com" target="_blank"><img src="./assets/nz.png"></a></p>
+<p align="center"><a href="https://www.nzcdn.com" target="_blank"><img src="./assets/nz.png"></a></p>
+<p align="center"><a href="https://www.nzcdn.com" target="_blank"><img src="./assets/nz.png"></a></p>
+<p align="center"><a href="https://www.nzcdn.com" target="_blank"><img src="./assets/nz.png"></a></p>
 # 预览：
 
 <p align="center"><img src="./assets/3.png"></p>
@@ -35,6 +41,7 @@ uniapp多端兼容版：https://github.com/wmlcjj/AI-IDPhoto
 # ⭐最近更新
     版本更新教程：https://www.bilibili.com/video/BV1xNUvYTEjo
 
+- 2025.05.03：修正变量名使用错误
 - 2024.END：  2024年最后一个版本，感谢有你🙏，2025年我们一起加油💪！ 修复所有的历史遗留包裹，增加图片编辑，增加物理删除图片，增强管理员后台
 - 2024.12.17：跟上HivisionIDPhotos(2024.11.20)，增加美颜，探索功能增加每日免费次数，功能可以管理员后台自由开关控制，修复90%的历史遗留包裹，升级到此版本的sql更新教程：https://www.0po.cn/archives/50
 - 2024.12.11：紧急修复图片动漫风功能图片太大导致无法生成的问题
