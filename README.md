@@ -88,9 +88,9 @@ uniapp多端兼容版：https://github.com/wmlcjj/AI-IDPhoto
 
 1. **鉴黄模型目前不怎么精准，建议在小程序过审时打开，其它时间关闭**
 2. 证件照API部署教程：https://www.bilibili.com/video/BV1urbYzvEzo
-3. 鉴黄API部署教程：https://www.bilibili.com/video/BV1FqbnzSEM7/
-4. 黑白图片上色API部署教程：https://www.bilibili.com/video/BV1y5bWzwEAq/
-5. 动漫风图片API部署教程：https://www.bilibili.com/video/BV13FbWzkEJj/
+3. 鉴黄API部署教程：https://www.bilibili.com/video/BV1FqbnzSEM7
+4. 黑白图片上色API部署教程：https://www.bilibili.com/video/BV13FbWzkEJj
+5. 动漫风图片API部署教程：https://www.bilibili.com/video/BV1y5bWzwEAq
 
 
 
