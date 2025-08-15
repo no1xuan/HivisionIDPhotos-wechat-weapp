@@ -43,7 +43,7 @@ uniapp多端兼容版：https://github.com/wmlcjj/AI-IDPhoto
 # ⭐最近更新
     版本更新教程：https://www.bilibili.com/video/BV1xNUvYTEjo
 
-- 2025.07.16：目前我正在大更新这个程序，下个星期后与大家见面，新版本决定损失一些性能和速度从而提高方便性，同时仍然不推出接口文档，如果你不希望丢失性能和速度请保留2025.05.03版本的代码
+- 2025.07.16：目前我正在大更新这个程序，预计要很久，新版本决定损失一些性能和速度从而提高方便性，但仍然不推出接口文档，如果你不希望丢失性能和速度请保留2025.05.03版本的前后端代码
 - 2025.05.03：修正变量名使用错误
 - 2024.END：  2024年最后一个版本，感谢有你🙏，2025年我们一起加油💪！ 修复所有的历史遗留包裹，增加图片编辑，增加物理删除图片，增强管理员后台
 - 2024.12.17：跟上HivisionIDPhotos(2024.11.20)，增加美颜，探索功能增加每日免费次数，功能可以管理员后台自由开关控制，修复90%的历史遗留包裹，升级到此版本的sql更新教程：https://www.0po.cn/archives/50
@@ -87,8 +87,10 @@ uniapp多端兼容版：https://github.com/wmlcjj/AI-IDPhoto
 注意:
 
 1. **鉴黄模型目前不怎么精准，建议在小程序过审时打开，其它时间关闭**
-2. API部署教程：https://www.bilibili.com/video/BV1CtUeYaE7i
-
+2. 证件照API部署教程：https://www.bilibili.com/video/BV1urbYzvEzo
+3. 鉴黄API部署教程：https://www.bilibili.com/video/BV1FqbnzSEM7/
+4. 黑白图片上色API部署教程：https://www.bilibili.com/video/BV1y5bWzwEAq/
+5. 动漫风图片API部署教程：https://www.bilibili.com/video/BV13FbWzkEJj/
 
 
 
@@ -128,6 +130,8 @@ uniapp多端兼容版：https://github.com/wmlcjj/AI-IDPhoto
 
 ##### 排期功能列表：
 - 衣服自由换装
+- 每日任务
+- 微信支付
 - 保持跟上最新HivisionIDPhotos模型
 
 
@@ -201,9 +205,10 @@ uniapp多端兼容版：https://github.com/wmlcjj/AI-IDPhoto
 
 如果不想部署API，可以使用我的：
 
-鉴黄API：http://121.62.63.137:3006/
 
-证件照和智能抠图API：http://121.62.63.137:8399/
+证件照和智能抠图API：http://111.170.9.50:8080/
+
+鉴黄API：暂不提供
 
 黑白图片上色API：http://colourize.0po.cn/
 
