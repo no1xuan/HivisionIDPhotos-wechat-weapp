@@ -18,9 +18,8 @@
 - 欢迎提交反馈，因为一个人的想法是有限的，但我希望产品能让大家都满意
 
 <h3 align="center">
-  反馈提交地址: <a href="https://fk.0po.cn">https://fk.0po.cn</a>
+  反馈提交地址: <a href="https://fk.0po.cn" target="_blank" rel="noopener noreferrer">https://fk.0po.cn</a>
 </h3>
-
 
 
 <p align="center">
