@@ -1,10 +1,30 @@
-# 广告：
+# 反馈
 
-<p align="center"><a href="https://www.nzcdn.com" target="_blank"><img src="./assets/nz.png"></a></p>
-<p align="center"><a href="https://www.nzcdn.com" target="_blank"><img src="./assets/nz.png"></a></p>
-<p align="center"><a href="https://www.nzcdn.com" target="_blank"><img src="./assets/nz.png"></a></p>
-<p align="center"><a href="https://www.nzcdn.com" target="_blank"><img src="./assets/nz.png"></a></p>
-<p align="center"><a href="https://www.nzcdn.com" target="_blank"><img src="./assets/nz.png"></a></p>
+目前我正在进行程序大更新，新版本**不支持平滑升级**！
+
+---
+
+##### 对于二开者
+
+新版本决定牺牲一些性能和速度以提高便利性，但仍然**不提供接口文档**。  
+如果你希望保留性能和速度，请保留 **2025.05.03** 版本的前后端代码，包括管理员端。
+
+---
+
+##### 提交您的想法
+
+- 目前 HivisionIDPhotos 的功能、性能和 bug 已经无法满足需求，如果你懂 Python，希望你能利用业余时间参与 HivisionIDPhotos 魔改计划
+- 如果你有更好的想法、发现 bug、喜欢别的小程序页面、觉得别的小程序某个功能或逻辑很好等等……
+- 欢迎提交反馈，因为一个人的想法是有限的，但我希望产品能让大家都满意
+
+<p align="center">
+[反馈提交地址](https://fk.0po.cn)
+</p>
+
+<p align="center">
+<img src="./assets/fk.png" alt="反馈图标">
+</p>
+
 
 # 预览：
 
@@ -129,9 +149,8 @@ uniapp多端兼容版：https://github.com/wmlcjj/AI-IDPhoto
 <br />
 
 ##### 排期功能列表：
-- 衣服自由换装
-- 每日任务
 - 微信支付
+- 衣服自由换装
 - 保持跟上最新HivisionIDPhotos模型
 
 
@@ -206,7 +225,7 @@ uniapp多端兼容版：https://github.com/wmlcjj/AI-IDPhoto
 如果不想部署API，可以使用我的：
 
 
-证件照和智能抠图API：http://111.170.9.50:8080/
+证件照和智能抠图API：http://zjz.0po.cn/
 
 鉴黄API：暂不提供
 
